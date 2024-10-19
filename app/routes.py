@@ -2,7 +2,7 @@
 
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_required, current_user
-from sqlalchemy import func
+from sqlalchemy import func, desc
 from statistics import mean
 from collections import Counter
 from datetime import datetime
