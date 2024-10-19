@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Climbing Side Climbook</title>
+
+    <!-- Link to the CSS file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+
+</head>
+<body>
+
+    <script>
+        function confirmLogout() {
+            return confirm('Do you want to logout?');
+        }
+    </script>
+    <!-- Barra di navigazione -->
+    {% if current_user.is_authenticated %}
+        <div class="navbar">
+            <a href="{{ url_for('home.homepage') }}">Home</a>
+            <a href="{{ url_for('users.users_list') }}">Users</a>
+            <a href="{{ url_for('routes.walls_list') }}">Walls</a>
+            <a href="{{ url_for('routes.routes_list') }}">Routes</a>
+            <a href="{{ url_for('users.user_page', user_id=current_user.id) }}">Profile</a> 
+            <a href="{{ url_for('users.logout') }}" onclick="return confirmLogout()" >Logout</a>
+            <span class="navbar-right"><b>climbing side climbook</b></span>
+        </div>
+    {% else %}
+        <div class="navbar">
+            <a href="{{ url_for('home.homepage') }}">Home</a>
+            <a href="{{ url_for('users.users_list') }}">Users</a>
+            <a href="{{ url_for('routes.walls_list') }}">Walls</a>
+            <a href="{{ url_for('routes.routes_list') }}">Routes</a>
+            <a href="{{ url_for('users.login') }}" >Login</a> 
+            <a href="{{ url_for('users.register') }}" >Register</a> 
+            <span class="navbar-right"><b>climbing side climbook</b></span>
+        </div>
+    {% endif %}
+
+    <div class="content">
+    <!-- <h1>Climbing Side climbook</h1> -->
+
+    <br>
+    <br>
+    
+    <!-- Add an image -->
+    <img src="{{ url_for('static', filename='images/logo2.jpg') }}" style="width: 400px; height: auto;">
+    
+    {% if current_user.is_authenticated %}
+
+        <br>
+        <p>Welcome <strong style="font-family: Verdana, sans-serif;">{{ current_user.username }}</strong>!</p>
+
+    {% else %}
+
+        <br>
+        <p>Welcome to the <span style="font-family: Verdana, sans-serif;">Climbing Side climbook</span>!</p>
+        <p>You are not logged in.</p>
+
+    {% endif %}
+
+    </div>
+
+
+</body>
+</html>
+
+
+
+
+
+

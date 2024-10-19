@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ route.name }}</title>
+
+    <!-- Link to the CSS file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        .highlight {
+            font-weight: bold;
+        }
+
+        /* Initially hide the form */
+        #repetition-form {
+            display: none;
+            margin-top: 20px;
+        }
+
+        /* Chart container */
+        #grade-histogram {
+            width: 600px;
+            height: 400px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+
+        li {
+            margin-bottom: 15px; /* 15px space between each list item */
+        }
+    </style>
+
+
+
+    <script>
+        function confirmDeletion() {
+            return confirm('Are you sure you want to delete your repetition of this route?');
+        }
+    </script>
+
+
+</head>
+<body>
+
+    
+    
+    <script>
+        function confirmLogout() {
+            return confirm('Do you want to logout?');
+        }
+    </script>
+    <!-- Barra di navigazione -->
+    {% if current_user.is_authenticated %}
+    <div class="navbar">
+        <a href="{{ url_for('home.homepage') }}">Home</a>
+        <a href="{{ url_for('users.users_list') }}">Users</a>
+        <a href="{{ url_for('routes.walls_list') }}">Walls</a>
+        <a href="{{ url_for('routes.routes_list') }}">Routes</a>
+        <a href="{{ url_for('users.user_page', user_id=current_user.id) }}">Profile</a> 
+        <a href="{{ url_for('users.logout') }}"  onclick="return confirmLogout()">Logout</a>
+        <span class="navbar-right"><b>climbing side climbook</b></span>
+
+    </div>
+    {% else %}
+        <div class="navbar">
+            <a href="{{ url_for('home.homepage') }}">Home</a>
+            <a href="{{ url_for('users.users_list') }}">Users</a>
+            <a href="{{ url_for('routes.walls_list') }}">Walls</a>
+            <a href="{{ url_for('routes.routes_list') }}">Routes</a>
+            <a href="{{ url_for('users.login') }}" >Login</a> 
+            <a href="{{ url_for('users.register') }}" >Register</a> 
+            <span class="navbar-right"><b>climbing side climbook</b></span>
+        </div>
+    {% endif %}
+
+
+
+
+    <div class="content">
+
+    <br>
+
+    <h1 style="font-family: Verdana, sans-serif;">{{ route.name }} ({{ route.grade }})</h1>
+
+    <p style="font-family: Verdana, sans-serif;"> <a href="{{ url_for('routes.wall_page', wall_id=route.wall_id) }}" class="link6" >Wall {{ route.wall.name }} </a> </p>
+
+
+
+    {% if current_user.is_authenticated %}
+    <!-- Check if current_user is already in route.users -->
+        {% if current_user in route.users %}
+            <p>
+                You have already added a repetition.
+                <!-- Display the user's proposed grade and score -->
+                {% if current_user_repetition %}
+                    Proposed grade: <strong style="font-family: Verdana, sans-serif;">{{ display_grade(current_user_repetition.proposed_grade) }}</strong>,
+                    Score: <strong style="font-family: Verdana, sans-serif;">{{ current_user_repetition.score }}/5</strong>,
+                    Date: <strong style="font-family: Verdana, sans-serif;">{{ current_user_repetition.date.strftime('%Y-%m-%d') }}</strong>
+                {% endif %}
+            </p>
+
+            <!-- Edit Repetition Button (shows the edit form) -->
+             <button id="edit-form-btn">Edit Repetition</button>
+
+            <!-- The Edit Form (initially hidden) -->
+             <div id="edit-repetition-form" style="display: none; margin-top: 20px;">
+              <form id="edit-grade-form" method="POST">
+                <input type="hidden" name="action" value="edit">  <!-- Set action to 'edit' -->
+
+                <label for="edit_base_grade">Proposed grade:</label>
+                <select id="edit_base_grade" name="base_grade" required>
+                    <!-- Same options as the add form -->
+                    <option value="0">4a</option>
+                    <option value="10">4a+</option>
+                    <option value="20">4b</option>
+                    <option value="30">4b+</option>
+                    <option value="40">4c</option>
+                    <option value="50">4c+</option>
+                    <option value="60">5a</option>
+                    <option value="70">5a+</option>
+                    <option value="80">5b</option>
+                    <option value="90">5b+</option>
+                    <option value="100">5c</option>
+                    <option value="110">5c+</option>
+                    <option value="120">6a</option>
+                    <option value="130">6a+</option>
+                    <option value="140">6b</option>
+                    <option value="150">6b+</option>
+                    <option value="160">6c</option>
+                    <option value="170">6c+</option>
+                    <option value="180">7a</option>
+                    <option value="190">7a+</option>
+                    <option value="200">7b</option>
+                    <option value="210">7b+</option>
+                    <option value="220">7c</option>
+                    <option value="230">7c+</option>
+                    <option value="240">8a</option>
+                    <option value="250">8a+</option>
+                    <option value="260">8b</option>
+                    <option value="270">8b+</option>
+                    <option value="280">8c</option>
+                    <option value="290">8c+</option>
+                    <option value="300">9a</option>
+                    <option value="310">9a+</option>
+                    <option value="320">9b</option>
+                    <option value="330">9b+</option>
+                    <option value="340">9c</option>
+                </select>
+
+                <label for="edit_decimal_part"> </label>
+                <select id="edit_decimal_part" name="decimal_part" required>
+                    <!-- Same options as the add form -->
+                    <option value="0">.0</option>
+                    <option value="1">.1</option>
+                    <option value="2">.2</option>
+                    <option value="3">.3</option>
+                    <option value="4">.4</option>
+                    <option value="5">.5</option>
+                    <option value="6">.6</option>
+                    <option value="7">.7</option>
+                    <option value="8">.8</option>
+                    <option value="9">.9</option>
+                </select>
+
+                <label for="edit_score">Rate this route (1-5):</label>
+                <input type="number" id="edit_score" name="score" min="1" max="5" required>
+
+                <!-- Add the date input field -->
+                <label for="edit_repetition_date">Date:</label>
+                <input type="date" id="edit_date" name="date" required>
+
+                <button type="submit">Update</button>
+             </form>
+            </div>
+
+            <!-- Add a form with a remove button and confirmation --> 
+            <form method="POST" action="{{ url_for('routes.remove_route_rep', route_id=route.id) }}" style="display:inline;" onsubmit="return confirmDeletion();">
+                <button type="submit">Remove</button>
+            </form> 
+        {% else %}
+
+            <!-- Add Repetition Button (this shows the form) -->
+            <button id="show-form-btn">Add Repetition</button>
+
+            <!-- The Form (initially hidden) -->
+            <div id="repetition-form">
+                <form id="grade-form" method="POST">
+                    <input type="hidden" name="action" value="add">  <!-- Set action to 'add' --> 
+                
+                    <label for="base_grade">Proposed grade:</label>
+                    <select id="base_grade" name="base_grade" required>
+                        <option value="0">4a</option>
+                        <option value="10">4a+</option>
+                        <option value="20">4b</option>
+                        <option value="30">4b+</option>
+                        <option value="40">4c</option>
+                        <option value="50">4c+</option>
+                        <option value="60">5a</option>
+                        <option value="70">5a+</option>
+                        <option value="80">5b</option>
+                        <option value="90">5b+</option>
+                        <option value="100">5c</option>
+                        <option value="110">5c+</option>
+                        <option value="120">6a</option>
+                        <option value="130">6a+</option>
+                        <option value="140">6b</option>
+                        <option value="150">6b+</option>
+                        <option value="160">6c</option>
+                        <option value="170">6c+</option>
+                        <option value="180">7a</option>
+                        <option value="190">7a+</option>
+                        <option value="200">7b</option>
+                        <option value="210">7b+</option>
+                        <option value="220">7c</option>
+                        <option value="230">7c+</option>
+                        <option value="240">8a</option>
+                        <option value="250">8a+</option>
+                        <option value="260">8b</option>
+                        <option value="270">8b+</option>
+                        <option value="280">8c</option>
+                        <option value="290">8c+</option>
+                        <option value="300">9a</option>
+                        <option value="310">9a+</option>
+                        <option value="320">9b</option>
+                        <option value="330">9b+</option>
+                        <option value="340">9c</option>
+                    </select>
+
+                    <label for="decimal_part"> </label>
+                    <select id="decimal_part" name="decimal_part" required>
+                        <option value="0">.0</option>
+                        <option value="1">.1</option>
+                        <option value="2">.2</option>
+                        <option value="3">.3</option>
+                        <option value="4">.4</option>
+                        <option value="5">.5</option>
+                        <option value="6">.6</option>
+                        <option value="7">.7</option>
+                        <option value="8">.8</option>
+                        <option value="9">.9</option>
+                    </select>
+
+
+                    <label for="score">Rate this route (1-5):</label>
+                    <input type="number" id="score" name="score" min="1" max="5" required>
+
+                    <!-- Add the date input field -->
+                    <label for="repetition_date">Date of Repetition:</label>
+                    <input type="date" id="date" name="date" required>
+            
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+        {% endif %}
+    {% else %}
+        <br>
+        <p>[You need to <a href="{{ url_for('users.login') }}">login</a> to add a repetition of this route]</p>
+    {% endif %}
+    
+    <script>
+        document.getElementById('show-form-btn').addEventListener('click', function() {
+            // Simply show the form and hide the button
+            document.getElementById('repetition-form').style.display = 'block';
+            this.style.display = 'none'; // Hide the button
+        });
+    </script>
+    
+    <script>
+        document.querySelector('#grade-form').addEventListener('submit', function(event) {
+            // Prevent the form from submitting immediately
+            event.preventDefault();
+    
+            // Get the values of the base grade and decimal part
+            var baseGradeValue = parseInt(document.getElementById('base_grade').value);
+            var decimalValue = parseInt(document.getElementById('decimal_part').value);
+    
+            // Combine the base grade and decimal part into a single value
+            var combinedGradeValue = baseGradeValue + decimalValue;
+    
+            // Create a hidden input field to store the combined value
+            var hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = 'proposed_grade';
+            hiddenInput.value = combinedGradeValue;
+    
+            // Append the hidden input to the form and submit it
+            this.appendChild(hiddenInput);
+            this.submit();
+        });
+    </script>
+    
+    <script> 
+        document.getElementById('edit-form-btn').addEventListener('click', function() {
+            document.getElementById('edit-repetition-form').style.display = 'block';
+            this.style.display = 'none'; // Hide the button
+        });
+        
+        document.querySelector('#edit-grade-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+        
+            var baseGradeValue = parseInt(document.getElementById('edit_base_grade').value);
+            var decimalValue = parseInt(document.getElementById('edit_decimal_part').value);
+        
+            var combinedGradeValue = baseGradeValue + decimalValue;
+        
+            var hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = 'proposed_grade';
+            hiddenInput.value = combinedGradeValue;
+        
+            this.appendChild(hiddenInput);
+            this.submit();
+        });
+        
+    </script>
+
+
+    <br>
+    <br>
+
+    
+    {% if users_with_grades %}
+
+        <p>Number of reps: <strong style="font-family: Verdana, sans-serif;">{{n_rep}}</strong> </p>
+        <p>Average score: <strong style="font-family: Verdana, sans-serif;">{{ avg_score|round(2) }}/5</strong>  <span id="star1" class="star-container">★★★★★</span></p> 
+        <script>
+            // Funzione per aggiornare il riempimento delle stelle
+            function updateStarRating(voto) {
+                const percentage = (voto / 5) * 100;
+                const starElement = document.getElementById('star1'); 
+                starElement.style.setProperty('--filled-star-width', `${percentage}%`);
+            }
+            updateStarRating({{ avg_score }});
+        </script>
+        <p>Average proposed grade: <strong style="font-family: Verdana, sans-serif;">{{ display_grade(avg_proposed_grade|int) }}</strong></p>
+
+
+
+
+
+        <!-- Histogram -->
+        <!-- <p><strong>Histogram:</strong></p> -->
+        <br>
+        <br>
+
+        <canvas id="grade-histogram" width="400" height="300"></canvas> <!-- Smaller canvas size -->
+
+        <br>
+
+        <p><strong>Repetitions:</strong></p>
+
+        <table style="font-family: Verdana, sans-serif;">
+            <thead>
+                <tr>
+                    <th>User Name</th>
+                    <th>Proposed Grade</th>
+                    <th>Score</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in users_with_grades %}
+                    <tr>
+                        <td>
+                            <a href="{{ url_for('users.user_page', user_id=entry.user.id) }}" class="{% if current_user.username and entry.user.username == current_user.username %}link7{% else %}link6{% endif %}">{{ entry.user.username }}</a>
+                        </td>
+                        <td>{{ display_grade(entry.proposed_grade) }}</td>
+                        <!-- <td>{{ entry.score }}/5</td> --> 
+                        <td><span id="{{entry.user.id}}" class="star-container">★★★★★</span></td>
+                            <script>
+                                // Funzione per aggiornare il riempimento delle stelle
+                                function updateStarRating(voto) {
+                                    const percentage = (voto / 5) * 100;
+                                    const starElement = document.getElementById("{{entry.user.id}}"); 
+                                    starElement.style.setProperty('--filled-star-width', `${percentage}%`);
+                                }
+                                updateStarRating({{ entry.score }});
+                            </script>
+                        <td>{{ entry.date.strftime('%Y-%m-%d') }}</td>        
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+
+    {% else %}
+        <p>No repetitions have been added for this route yet.</p>
+    {% endif %}
+
+
+    <!-- Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // Prepare the grade frequencies data from the backend
+        const gradeFrequencies = {{ full_grade_frequencies | tojson }};
+        const grades = Object.keys(gradeFrequencies).map(grade => parseInt(grade));  // Convert keys to integers
+        const frequencies = Object.values(gradeFrequencies);
+
+        // Convert the grades to climbing grade format using display_grade function in backend
+        const gradeLabels = {{ grade_labels | tojson }};
+        const labels = grades.map(grade => gradeLabels[grade]);
+        // Create the histogram using Chart.js
+        const ctx = document.getElementById('grade-histogram').getContext('2d');
+        const gradeHistogram = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,  // X-axis labels (formatted grades)
+                datasets: [{
+                    label: 'Number of Users',
+                    data: frequencies,  // Y-axis data (frequencies)
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: false,  // Set to false to make it non-responsive and fixed size
+                maintainAspectRatio: false,  // This will allow you to change the width and height freely
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1,   // Ensure ticks increment by 1
+                            callback: function(value) {
+                                return Number.isInteger(value) ? value : null;  // Show only integer tick values
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Number of Users'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Proposed Grades'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+    </script>
+
+
+    <br>
+    <br>
+    </div>
+    <br>
+    <br>
+
+
+</body>
+</html>

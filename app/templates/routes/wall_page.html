@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wall {{wall.name}} </title>
+    <!-- Link to the CSS file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+    <style>
+        .table {
+          display: flex;
+          flex-direction: column;
+          width: 1000px;
+          border: 1px solid #ddd;
+        }
+        .row {
+          display: flex;
+          padding: 10px;
+          border-bottom: 1px solid #ddd;
+        }
+        .row a {
+            flex-basis: 25%; /* Larghezza riservata per il link (ad esempio, il 40%) */
+        }  
+        .row span {
+            flex-basis: 20%; /* Larghezza riservata per i vari <span> */
+            text-align: left; /* Allinea il testo a destra per una migliore estetica */
+        }
+    </style>
+
+
+
+
+</head>
+<body>
+
+    <script>
+        function confirmLogout() {
+            return confirm('Do you want to logout?');
+        }
+    </script>
+    <!-- Barra di navigazione -->
+    {% if current_user.is_authenticated %}
+    <div class="navbar">
+        <a href="{{ url_for('home.homepage') }}">Home</a>
+        <a href="{{ url_for('users.users_list') }}">Users</a>
+        <a href="{{ url_for('routes.walls_list') }}">Walls</a>
+        <a href="{{ url_for('routes.routes_list') }}">Routes</a>
+        <a href="{{ url_for('users.user_page', user_id=current_user.id) }}">Profile</a> 
+        <a href="{{ url_for('users.logout') }}"  onclick="return confirmLogout()">Logout</a>
+        <span class="navbar-right"><b>climbing side climbook</b></span>
+
+    </div>
+    {% else %}
+        <div class="navbar">
+            <a href="{{ url_for('home.homepage') }}">Home</a>
+            <a href="{{ url_for('users.users_list') }}">Users</a>
+            <a href="{{ url_for('routes.walls_list') }}">Walls</a>
+            <a href="{{ url_for('routes.routes_list') }}">Routes</a>
+            <a href="{{ url_for('users.login') }}" >Login</a> 
+            <a href="{{ url_for('users.register') }}" >Register</a> 
+            <span class="navbar-right"><b>climbing side climbook</b></span>
+        </div>
+    {% endif %}
+
+
+
+
+
+    <div class="content">
+    <br>
+    <h1 style="font-family: Verdana, sans-serif;"> Wall {{ wall.name }} </h1>
+
+    
+    <p>Number of routes:<strong style="font-family: Verdana, sans-serif;">{{n_routes}}</strong></p>
+    <p>Number of reps:<strong style="font-family: Verdana, sans-serif;">{{n_reps}}</strong></p>
+
+
+
+    <h3>Routes</h3>
+
+    <!-- Sorting options -->
+    <div>
+        <label for="sort">Sort by:</label>
+        <select id="sort" name="sort" onchange="window.location.href = '?sort=' + this.value;">
+            <option value="default" {% if sort_order == 'default' %}selected{% endif %}>Default Order</option>
+            <option value="asc" {% if sort_order == 'asc' %}selected{% endif %}>Climbing Grade</option>
+            <option value="repetitions" {% if sort_order == 'repetitions' %}selected{% endif %}>Number of Repetitions</option>
+            <option value="avg_score" {% if sort_order == 'avg_score' %}selected{% endif %}>Average Score</option>
+        </select>
+    </div>
+
+    <br>
+
+    {% if routes %}
+        <div class="table" style="font-family: Verdana, sans-serif;">
+            <div class="row" style="border-bottom: 2px solid black; padding-bottom: 5px;"> 
+                <span style="flex-basis: 30%;"> name </span>
+                <span style="flex-basis: 20%;"> grade </span>
+                <span style="flex-basis: 20%;"> proposed </span> 
+                <span style="flex-basis: 15%;"> reps </span> 
+                <span style="flex-basis: 15%;"> score </span>
+            </div>
+            {% for route in routes %}
+                <div class="row" style = "{% if route.done %} background-color: rgba(255, 240, 0, 0.4); {% endif %} "> 
+                    <a href="{{ url_for('routes.route_page', route_id=route.id) }}" class="link6" style="flex-basis: 30%;"><strong>{{ route.name }} </strong></a>
+                    <span style="flex-basis: 20%;"> <strong>{{ route.grade }}</strong> </span>
+                    <span style="flex-basis: 20%;"> {{ route.avg_proposed_grade }} </span> 
+                    <span style="flex-basis: 15%;"> {{ route.repetitions }} </span> 
+                    <!-- <span style="flex-basis: 15%;"> {{ route.avg_score | round(2) }}/5 </span> -->
+                    <span style="flex-basis: 15%;"> <span id="{{ route.id}}" class="star-container">★★★★★</span> </span> 
+                        <script>
+                            // Funzione per aggiornare il riempimento delle stelle
+                            function updateStarRating(voto) {
+                                const percentage = (voto / 5) * 100;
+                                const starElement = document.getElementById("{{route.id}}"); 
+                                starElement.style.setProperty('--filled-star-width', `${percentage}%`);
+                            }
+                            updateStarRating({{ route.avg_score }});
+                        </script>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No Routes found.</p>
+    {% endif %}
+
+
+    <br>
+    <br>
+    <br>
+    <br>
+
+    
+    
+    </div>
+
+
+</body>
+</html>

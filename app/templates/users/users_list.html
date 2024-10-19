@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users</title>
+
+
+    <style>
+        .table {
+          display: flex;
+          flex-direction: column;
+          width: 1000px;
+          border: 1px solid #ddd;
+        }
+        .row {
+          display: flex;
+          padding: 10px;
+          border-bottom: 1px solid #ddd;
+        }
+        .row a {
+            flex-basis: 50%; /* Larghezza riservata per il link (ad esempio, il 40%) */
+        }  
+        .row span {
+            flex-basis: 25%; /* Larghezza riservata per i vari <span> */
+            text-align: left; /* Allinea il testo a destra per una migliore estetica */
+        }
+      </style>
+    
+
+    <!-- Link to the CSS file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+</head>
+<body>
+
+
+    <script>
+        function confirmLogout() {
+            return confirm('Do you want to logout?');
+        }
+    </script>
+    <!-- Barra di navigazione -->
+    {% if current_user.is_authenticated %}
+    <div class="navbar">
+        <a href="{{ url_for('home.homepage') }}">Home</a>
+        <a href="{{ url_for('users.users_list') }}">Users</a>
+        <a href="{{ url_for('routes.walls_list') }}">Walls</a>
+        <a href="{{ url_for('routes.routes_list') }}">Routes</a>
+        <a href="{{ url_for('users.user_page', user_id=current_user.id) }}">Profile</a> 
+        <a href="{{ url_for('users.logout') }}"  onclick="return confirmLogout()" >Logout</a>
+        <span class="navbar-right"><b>climbing side climbook</b></span>
+
+    </div>
+    {% else %}
+        <div class="navbar">
+            <a href="{{ url_for('home.homepage') }}">Home</a>
+            <a href="{{ url_for('users.users_list') }}">Users</a>
+            <a href="{{ url_for('routes.walls_list') }}">Walls</a>
+            <a href="{{ url_for('routes.routes_list') }}">Routes</a>
+            <a href="{{ url_for('users.login') }}" >Login</a> 
+            <a href="{{ url_for('users.register') }}" >Register</a> 
+            <span class="navbar-right"><b>climbing side climbook</b></span>
+        </div>
+    {% endif %}
+    
+
+
+
+    <div class="content">
+    <h2>Registered Users</h2>
+
+    <!-- Sorting options -->
+    <div>
+        <label for="sort">Sort by:</label>
+        <select id="sort" name="sort" onchange="window.location.href = '?sort=' + this.value;">
+            <option value="default" {% if sort_order == 'default' %}selected{% endif %}>Default Order</option>
+            <option value="alph" {% if sort_order == 'alph' %}selected{% endif %}>Alphabetical Order</option>
+            <option value="nreps" {% if sort_order == 'nreps' %}selected{% endif %}>Number of Reps</option>
+            <option value="maxgrade" {% if sort_order == 'maxgrade' %}selected{% endif %}>Max Grade</option>
+        </select>
+    </div>
+
+    <br>
+
+    {% if users %}
+        <div class="table" style="font-family: Verdana, sans-serif;">
+            <div class="row" style="border-bottom: 2px solid black; padding-bottom: 5px;"> 
+                <span style="flex-basis: 50%; "> name </span>
+                <span> added reps </span>
+                <span> max grade </span>
+            </div>
+            {% for user_row in users %}
+            <div class="row" style="{% if current_username and user_row[1] == current_username %} background-color: rgba(15, 240, 5, 0.3); {% endif %}">
+                <!-- <a href="{{ url_for('users.user_page', user_id=user_row[0]) }}" class="{% if current_username and user_row[1] == current_username %}link7{% else %}link6{% endif %}"> {{ user_row[1] }} </a> -->
+                <a href="{{ url_for('users.user_page', user_id=user_row[0]) }}" class="link6"> {{ user_row[1] }} </a>
+                <span> {{ user_row[2] }} </span>
+                <span> {{ user_row[3] or 'N/A' }} </span>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p>No users found.</p>
+    {% endif %}
+    
+
+    <br>
+    <br>
+    
+    </div>
+
+</body>
+</html>

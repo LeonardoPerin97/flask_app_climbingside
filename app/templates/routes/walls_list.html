@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Walls List</title>
+    <!-- Link to the CSS file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+    <style>
+        .table {
+          display: flex;
+          flex-direction: column;
+          width: 1000px;
+          border: 1px solid #ddd;
+        }
+        .row {
+          display: flex;
+          padding: 10px;
+          border-bottom: 1px solid #ddd;
+        }
+        .row a {
+            flex-basis: 25%; /* Larghezza riservata per il link (ad esempio, il 40%) */
+        }  
+        .row span {
+            flex-basis: 20%; /* Larghezza riservata per i vari <span> */
+            text-align: left; /* Allinea il testo a destra per una migliore estetica */
+        }
+    </style>
+
+
+
+</head>
+<body>
+
+    <script>
+        function confirmLogout() {
+            return confirm('Do you want to logout?');
+        }
+    </script>
+    <!-- Barra di navigazione -->
+    {% if current_user.is_authenticated %}
+    <div class="navbar">
+        <a href="{{ url_for('home.homepage') }}">Home</a>
+        <a href="{{ url_for('users.users_list') }}">Users</a>
+        <a href="{{ url_for('routes.walls_list') }}">Walls</a>
+        <a href="{{ url_for('routes.routes_list') }}">Routes</a>
+        <a href="{{ url_for('users.user_page', user_id=current_user.id) }}">Profile</a> 
+        <a href="{{ url_for('users.logout') }}"  onclick="return confirmLogout()">Logout</a>
+        <span class="navbar-right"><b>climbing side climbook</b></span>
+
+    </div>
+    {% else %}
+        <div class="navbar">
+            <a href="{{ url_for('home.homepage') }}">Home</a>
+            <a href="{{ url_for('users.users_list') }}">Users</a>
+            <a href="{{ url_for('routes.walls_list') }}">Walls</a>
+            <a href="{{ url_for('routes.routes_list') }}">Routes</a>
+            <a href="{{ url_for('users.login') }}" >Login</a> 
+            <a href="{{ url_for('users.register') }}" >Register</a> 
+            <span class="navbar-right"><b>climbing side climbook</b></span>
+        </div>
+    {% endif %}
+
+
+
+
+
+    <div class="content">
+    <h2>Walls</h2>
+
+    
+    {% if walls %}
+        <div class="table" style="font-family: Verdana, sans-serif;">
+            <div class="row" style="border-bottom: 2px solid black; padding-bottom: 5px;"> 
+                <span style="flex-basis: 60%;"> name </span>
+                <span style="flex-basis: 20%;"> routes </span>
+                <span style="flex-basis: 20%;"> reps </span>
+            </div>
+            {% for wall in walls %}
+                <div class="row"> 
+                    <a href="{{ url_for('routes.wall_page', wall_id=wall.id) }}" class="link6" style="flex-basis: 60%;"><strong>{{ wall.name }} </strong></a>
+                    <span style="flex-basis: 20%;"> {{ wall.n_routes }} </span>
+                    <span style="flex-basis: 20%;"> {{ wall.n_reps }} </span>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No Walls found.</p>
+    {% endif %}
+
+
+    <br>
+    <br>
+    <br>
+    
+    
+    </div>
+
+
+</body>
+</html>

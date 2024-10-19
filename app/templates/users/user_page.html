@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ user.username }}</title>
+
+    <!-- Link to the CSS file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style> 
+        /* Chart container */
+        #grade-histogram {
+            width: 600px;
+            height: 400px;
+        } 
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+        li {
+            margin-bottom: 15px; /* 15px space between each list item */
+        }
+    </style>
+
+</head>
+<body>
+
+    
+    <script>
+        function confirmLogout() {
+            return confirm('Do you want to logout?');
+        }
+    </script>
+    <!-- Barra di navigazione -->
+    {% if current_user.is_authenticated %}
+    <div class="navbar">
+        <a href="{{ url_for('home.homepage') }}">Home</a>
+        <a href="{{ url_for('users.users_list') }}">Users</a>
+        <a href="{{ url_for('routes.walls_list') }}">Walls</a>
+        <a href="{{ url_for('routes.routes_list') }}">Routes</a>
+        <a href="{{ url_for('users.user_page', user_id=current_user.id) }}">Profile</a> 
+        <a href="{{ url_for('users.logout') }}"  onclick="return confirmLogout()">Logout</a>
+        <span class="navbar-right"><b>climbing side climbook</b></span>
+
+    </div>
+    {% else %}
+        <div class="navbar">
+            <a href="{{ url_for('home.homepage') }}">Home</a>
+            <a href="{{ url_for('users.users_list') }}">Users</a>
+            <a href="{{ url_for('routes.walls_list') }}">Walls</a>
+            <a href="{{ url_for('routes.routes_list') }}">Routes</a>
+            <a href="{{ url_for('users.login') }}" >Login</a> 
+            <a href="{{ url_for('users.register') }}" >Register</a> 
+            <span class="navbar-right"><b>climbing side climbook</b></span>
+        </div>
+    {% endif %}
+
+
+
+
+    <div class="content">
+
+    <br>
+
+    <h1 style="font-family: Verdana, sans-serif;">{{ user.username }}</h1>
+
+    <!--
+    {% if current_user.is_authenticated and user.id == current_user.id %}
+        <button id="edit-name-btn">Edit</button>
+        <form id="edit-name-form" action="{{ url_for('users.update_username', user_id=current_user.id) }}" method="POST" style="display: none;">
+            <input type="text" id="new-username" name="new_username" value="{{ user.username }}">
+            <button type="submit">Save</button>
+            <button type="button" id="cancel-edit-btn" style="margin-left: 5px;">Cancel</button>
+        </form>
+    {% endif %}
+    <script>
+        document.getElementById('edit-name-btn').addEventListener('click', function() {
+            document.getElementById('edit-name-form').style.display = 'inline';
+            document.getElementById('edit-name-btn').style.display = 'none';
+        });
+        // Nasconde il form di modifica e mostra di nuovo il bottone "Edit" e il nome dell'utente
+        document.getElementById('cancel-edit-btn').addEventListener('click', function() {
+            document.getElementById('edit-name-form').style.display = 'none';
+            document.getElementById('edit-name-btn').style.display = 'inline';
+            //document.getElementById('username-display').style.display = 'inline'; // Mostra di nuovo il nome
+        });
+    </script>
+    -->
+
+    <br>
+    <canvas id="grade-histogram" width="600" height="300"></canvas> 
+    <br>
+    <br>
+    
+    <p>Repetitions added: <strong style="font-family: Verdana, sans-serif;">{{nreps}}</strong></p>
+
+    <div>
+        <label for="sort">Sort by:</label>
+        <select id="sort" name="sort" onchange="changeSortOption()">    <!-- onchange="window.location.href = '?sort_by=' + this.value;"> -->
+            <option value="id" {% if sort_by == 'id' %}selected{% endif %}>Default Order</option>
+            <option value="grade" {% if sort_by == 'grade' %}selected{% endif %}>Climbing Grade</option>
+            <option value="date" {% if sort_by == 'date' %}selected{% endif %}>Date</option>
+        </select>
+    </div>
+
+    <script>
+        function changeSortOption() {
+            const selectedOption = document.getElementById('sort').value;
+            // Fetch the sorted routes without refreshing the page
+            fetch(`/users/{{ user.id }}?sort_by=` + selectedOption)
+                .then(response => response.text()) // We expect HTML content
+                .then(html => {
+                    // Parse and replace the route container content
+                    const parser = new DOMParser();
+                    const newDoc = parser.parseFromString(html, 'text/html');
+                    const newContent = newDoc.getElementById('route-container').innerHTML;
+                    document.getElementById('route-container').innerHTML = newContent;
+                })
+                .catch(error => {
+                    console.error('Error fetching sorted routes:', error);
+                });
+        }
+    </script>
+
+
+    {% if routes %}
+    <div id="route-container">
+    <table style="font-family: Verdana, sans-serif;">
+        <thead>
+            <tr>
+                <th>Route Name</th>
+                <th>Grade</th>
+                <th>Proposed Grade</th>
+                <th>Score</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for route in routes %}
+                <tr>
+                    <td>
+                        <a href="{{ url_for('routes.route_page', route_id=route.id) }}" class="link6" ><strong>{{ route.name }}</strong></a>
+                        <br>
+                        <a href="{{ url_for('routes.wall_page', wall_id=route.wall_id) }}" class="link6" style="font-weight: normal; font-size: small;"> Wall {{ route.wall.name }} </a>
+                    </td>
+                    <td><strong>{{ route.grade }}</strong></td>
+                    <td>{{ display_grade(route.proposed_grade) }}</td> <!-- Display proposed grade or 'N/A' if none -->
+                    <!--<td>{{ route.score }}/5</td> -->
+                    <td><span id="{{ route.id}}" class="star-container">★★★★★</span> </td> 
+                        <script>
+                            // Funzione per aggiornare il riempimento delle stelle
+                            function updateStarRating(voto) {
+                                const percentage = (voto / 5) * 100;
+                                const starElement = document.getElementById("{{route.id}}"); 
+                                starElement.style.setProperty('--filled-star-width', `${percentage}%`);
+                            }
+                            updateStarRating({{ route.score }});
+                        </script>
+                    <td>{{ route.date.strftime('%Y-%m-%d') }}</td>  <!-- Display the date in the table -->
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    {% else %}
+        <p> <b style="font-family: Verdana, sans-serif;">{{ user.username }}</b> has not added any routes yet.</p>
+    {% endif %}
+
+    
+    <!-- Histogram -->
+    <!-- <p><strong>Histogram:</strong></p> -->
+    
+ 
+
+    
+
+    </div>
+
+
+
+    <!-- Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // Prepare the grade frequencies data from the backend
+        const gradeFrequencies = {{ full_grade_frequencies | tojson }};
+        const grades = Object.keys(gradeFrequencies);
+        const frequencies = Object.values(gradeFrequencies);
+        // Create the histogram using Chart.js
+        const ctx = document.getElementById('grade-histogram').getContext('2d');
+        const gradeHistogram = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: grades,  // X-axis labels (formatted grades)
+                datasets: [{
+                    label: 'Number of Routes',
+                    data: frequencies,  // Y-axis data (frequencies)
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: false,  // Set to false to make it non-responsive and fixed size
+                maintainAspectRatio: false,  // This will allow you to change the width and height freely
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1,   // Ensure ticks increment by 1
+                            callback: function(value) {
+                                return Number.isInteger(value) ? value : null;  // Show only integer tick values
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Number of Routes'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Grades'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+    </script>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+</body>
+</html>

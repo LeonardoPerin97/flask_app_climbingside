@@ -1,0 +1,193 @@
+/* Style for the links */
+.link {
+    background-color: white;
+    color: black;
+    border: 2px solid rgb(0, 87, 0);
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+  }
+  
+  .link:hover {
+    background-color: rgb(0, 87, 0);
+    color: white;
+  }
+
+.link2 {
+    /*display: block; /* Make the link a block-level element */
+    margin-top: 20px; 
+    margin-left: 10px; /* Add some space between the button and the list item text */
+    padding: 5px 10px; /* Add padding to make the button larger */
+    background-color: #007bff; /* Set button background color */
+    color: white; /* Set button text color */
+    border: none; /* Remove button border */
+    border-radius: 5px; /* Add some border radius for rounded corners */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    text-decoration: none; /* Remove underline from the link */
+}
+.link2:hover {
+    background-color: #0400ff; /* Change button background color on hover */
+    text-decoration: underline; /* Add underline on hover */
+}
+.link2b {
+    /*display: block; /* Make the link a block-level element */
+    margin-top: 20px; 
+    margin-left: 10px; /* Add some space between the button and the list item text */
+    padding: 5px 10px; /* Add padding to make the button larger */
+    background-color: rgb(250, 0, 0); /* Set button background color */
+    color: white; /* Set button text color */
+    border: none; /* Remove button border */
+    border-radius: 5px; /* Add some border radius for rounded corners */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    text-decoration: none; /* Remove underline from the link */
+}
+.link2b:hover {
+    background-color: rgb(250, 0, 0); /* Change button background color on hover */
+    text-decoration: underline; /* Add underline on hover */
+}
+
+.link3 {
+    background-color: white;
+    color: black;
+    border: 2px solid rgb(0, 0, 150);
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}  
+.link3:hover {
+    background-color: rgb(0, 0, 150);
+    color: white;
+}
+.link4 {
+    background-color: white;
+    color: black;
+    border: 2px solid rgb(250, 0, 0);
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}  
+.link4:hover {
+    background-color: rgb(250, 0, 0);
+    color: white;
+}
+/* Style for the image */
+img {
+    width: 50%; /* Set the width of the image to 50% of its container */
+    display: block; /* Make the image a block-level element */
+    margin-bottom: 20px; /* Add some space below the image */
+}
+.empty-space {
+    height: 50px; /* Imposta l'altezza dello spazio vuoto */
+}
+
+/* Add space between list items */
+li {
+    margin-bottom: 15px; /* 15px space between each list item */
+}
+
+.link5 {
+    background-color: white;
+    color: black;
+    border: 2px solid rgb(0, 0, 80);
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+  
+.link5:hover {
+    background-color: rgb(0, 0, 80);
+    color: white;
+}
+
+.link6 {
+    color: black;          /* Colore del testo nero */
+    font-weight: bold;     /* Grassetto */
+    text-decoration: none; /* Rimuove la sottolineatura */
+}
+.link6:hover {
+    color: blue;           /* Colore blu quando il cursore è sopra */
+}
+
+.link7 {
+    color: black;          /* Colore del testo nero */
+    font-weight: bold;     /* Grassetto */
+    text-decoration: underline; /* Rimuove la sottolineatura */
+}
+.link7:hover {
+    color: blue;           /* Colore blu quando il cursore è sopra */
+}
+
+
+
+/* Stile per la barra di navigazione */
+.navbar {
+    background-color: #333;
+    overflow: hidden;
+    position: fixed; /* Fissa la barra in alto */
+    top: 0;
+    width: 100%; /* La barra copre tutta la larghezza della pagina */
+}
+
+/* Stile per i link della barra */
+.navbar a {
+    float: left; /* Allinea i link a sinistra */
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+}
+
+/* Cambia il colore dei link al passaggio del mouse */
+.navbar a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+
+/* Stile per l'elemento sulla destra */
+.navbar-right {
+    float: right; /* Allinea l'elemento a destra */
+    color: white;
+    padding: 14px 20px;
+    text-align: center;
+    font-family: Verdana, sans-serif;
+}
+
+
+
+/* Aggiungi un po' di padding alla parte superiore del contenuto */
+.content {
+    padding-top: 30px;
+}
+
+
+/*
+body {
+    font-family: Verdana, sans-serif;
+}
+*/
+
+
+/* Contenitore della stella */
+.star-container {
+    position: relative;
+    display: inline-block;
+    font-size: 20px; /* Dimensione della stella */
+    color: lightgray; /* Colore stella vuota */
+}
+
+/* Stella piena */
+.star-container::before {
+    content: '★★★★★';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: var(--filled-star-width, 0%); /* Larghezza del riempimento */
+    color: gold; /* Colore della parte piena */
+    overflow: hidden;
+}

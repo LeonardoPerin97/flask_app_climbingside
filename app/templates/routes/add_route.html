@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Route</title>
+</head>
+<body>
+    <h2>Add a New Route</h2>
+
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.name.label }} <br>
+            {{ form.name(size=32) }} <br>
+            {% for error in form.name.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </div>
+       
+
+        <div>
+            {{ form.grade.label }} <br>
+            {{ form.grade() }} <br>
+            {% for error in form.grade.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </div>
+       
+
+        <div>
+            {{ form.wall.label }} <br>
+            {{ form.wall() }} <br>
+            {% for error in form.wall.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </div>
+        <br>
+
+        <div>
+            {{ form.submit() }}
+        </div>
+    </form>
+
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <a href="{{ url_for('routes.routes_list') }}">Back to Routes List</a>
+</body>
+</html>

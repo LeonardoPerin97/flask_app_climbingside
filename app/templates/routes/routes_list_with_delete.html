@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Routes</title>
+    <script>
+        function confirmDeletion(routeName) {
+            return confirm('Are you sure you want to delete "' + routeName + '"?');
+        }
+    </script>
+</head>
+<body>
+    <h2>List of Routes</h2>
+
+    {% if routes %}
+        <ul>
+            {% for route in routes %}
+                <li>
+                    <b>{{ route.name }}</b> ({{ route.grade }})  wall {{route.wall.name}}
+                    <!-- Add a form with a remove button and confirmation -->
+                    <form method="POST" action="{{ url_for('routes.delete_route', route_id=route.id) }}" style="display:inline;" onsubmit="return confirmDeletion('{{ route.name }}');">
+                        <button type="submit">Remove</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No routes yet.</p>
+    {% endif %}
+
+    <br>
+    
+    <a href="{{ url_for('routes.routes_list') }}">Back to Routes List</a>
+</body>
+</html>
