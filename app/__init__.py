@@ -1,9 +1,9 @@
 #app/__init__.py
 
-from flask import Flask, render_template, redirect, url_for, flash, request
+from flask import Flask, render_template, redirect, url_for, flash, request, send_file, abort
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from flask_sqlalchemy import SQLAlchemy
-
+import os
 
 
 
@@ -79,6 +79,25 @@ def create_app():
 
     from app.routes import routes
     app.register_blueprint(routes)
+
+
+
+    # Download database
+    DB_FILE_PATH = os.path.join(app.instance_path, 'site.db')
+    @app.route('/download-db')
+    @login_required
+    def download_db():
+        try:
+            # Controlla se il file esiste
+            if os.path.exists(DB_FILE_PATH):
+                # Utilizza send_file per inviare il file al client
+                return send_file(DB_FILE_PATH, as_attachment=True, download_name='site.db')
+            else:
+                # Se il file non esiste, ritorna un errore 404
+                abort(404)
+        except Exception as e:
+            print(f"Errore nel download del file: {e}")
+            abort(500)
 
     
     
