@@ -380,16 +380,7 @@
                         </td>
                         <td>{{ display_grade(entry.proposed_grade) }}</td>
                         <!-- <td>{{ entry.score }}/5</td> --> 
-                        <td><span id="{{entry.user.id}}" class="star-container">★★★★★</span></td>
-                            <script>
-                                // Funzione per aggiornare il riempimento delle stelle
-                                function updateStarRating(voto) {
-                                    const percentage = (voto / 5) * 100;
-                                    const starElement = document.getElementById("{{entry.user.id}}"); 
-                                    starElement.style.setProperty('--filled-star-width', `${percentage}%`);
-                                }
-                                updateStarRating({{ entry.score }});
-                            </script>
+                        <td><span id="{{entry.user.id}}" class="star-container" style="--filled-star-width: {{entry.score *100/5}}%">★★★★★</span></td>
                         <td>{{ entry.date.strftime('%Y-%m-%d') }}</td>        
                     </tr>
                 {% endfor %}
