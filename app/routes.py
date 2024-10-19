@@ -18,6 +18,7 @@ routes = Blueprint('routes', __name__)
 # ROUTES LIST
 @routes.route('/routes')
 def routes_list():
+    
     sort_order = request.args.get('sort', 'default')
     # Base query for routes, including counting repetitions and calculating average score
     base_query = db.session.query(
@@ -36,6 +37,7 @@ def routes_list():
         routes = base_query.order_by(func.coalesce(func.avg(user_route.c.score), 0).desc()).all()
     else:
         routes = base_query.order_by(Route.id).all()
+        
     # Unpack routes to add repetitions and avg_score fields
     routes_list = []
     for route, repetitions, avg_score, avg_proposed_grade in routes:
@@ -59,7 +61,24 @@ def routes_list():
             'done': user_has_done
         }
         routes_list.append(route_data)
-    return render_template('routes/routes_list.html', routes=routes_list, sort_order=sort_order)
+
+    # Query per contare le occorrenze di ogni Route.grade
+    allroutes = Route.query.all()
+    nroutes=len(allroutes)
+    grades = [route.grade for route in allroutes]
+    french_grades = [
+    "4a", "4a+", "4b", "4b+", "4c", "4c+", 
+    "5a", "5a+", "5b", "5b+", "5c", "5c+", 
+    "6a", "6a+", "6b", "6b+", "6c", "6c+",
+    "7a", "7a+", "7b", "7b+", "7c", "7c+",
+    "8a", "8a+", "8b", "8b+", "8c", "8c+",
+    "9a", "9a+", "9b", "9b+", "9c"
+    ]
+    grade_frequencies = dict(Counter(grades))
+    # Ensure all grades in the range have a frequency (fill missing with 0)
+    grade_distribution = {grade: grade_frequencies.get(grade, 0) for grade in french_grades}
+    
+    return render_template('routes/routes_list.html', routes=routes_list, sort_order=sort_order, grade_distribution=grade_distribution, nroutes=nroutes)
 
 
 
