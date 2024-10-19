@@ -96,18 +96,20 @@
     {% if routes %}
         <div class="table" style="font-family: Verdana, sans-serif;">
             <div class="row" style="border-bottom: 2px solid black; padding-bottom: 5px;"> 
-                <span style="flex-basis: 25%;"> name </span>
-                <span style="flex-basis: 25%;"> grade </span>
+                <span style="flex-basis: 30%;"> name </span>
+                <span style="flex-basis: 5%;"> </span>
+                <span style="flex-basis: 20%;"> grade </span>
                 <!-- <span style="flex-basis: 20%;"> proposed </span> -->
-                <span style="flex-basis: 25%;"> reps </span> 
+                <span style="flex-basis: 20%;"> reps </span> 
                 <span style="flex-basis: 25%;"> score </span>
             </div>
             {% for route in routes %}
-                <div class="row" style = "{% if route.done %} background-color: rgba(255, 240, 0, 0.4); {% endif %} "> 
-                    <a href="{{ url_for('routes.route_page', route_id=route.id) }}" class="link6" style="flex-basis: 25%;"><strong>{{ route.name }} </strong></a>
-                    <span style="flex-basis: 25%;"> <strong>{{ route.grade }}</strong> <br> {{ route.avg_proposed_grade }} </span>
+                <div class="row" style = "display: flex; align-items: center; {% if route.done %} background-color: rgba(255, 240, 0, 0.4); {% endif %} "> 
+                    <a href="{{ url_for('routes.route_page', route_id=route.id) }}" class="link6" style="word-break: break-all; overflow-wrap: break-word; flex-basis: 30%;"><strong>{{ route.name }} </strong></a>
+                    <span style="flex-basis: 5%;"> </span>
+                    <span style="flex-basis: 20%;"> <strong>{{ route.grade }}</strong> <br> {{ route.avg_proposed_grade }} </span>
                     <!--<span style="flex-basis: 20%;"> {{ route.avg_proposed_grade }} </span> -->
-                    <span style="flex-basis: 25%;"> {{ route.repetitions }} </span> 
+                    <span style="flex-basis: 20%;"> {{ route.repetitions }} </span> 
                     <!-- <span style="flex-basis: 15%;"> {{ route.avg_score | round(2) }}/5 </span> -->
                     <span style="flex-basis: 25%;"> <span id="{{ route.id}}" class="star-container">★★★★★</span> </span> 
                         <script>
