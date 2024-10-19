@@ -111,16 +111,7 @@
                     <!--<span style="flex-basis: 20%;"> {{ route.avg_proposed_grade }} </span> -->
                     <span style="flex-basis: 20%;"> {{ route.repetitions }} </span> 
                     <!-- <span style="flex-basis: 15%;"> {{ route.avg_score | round(2) }}/5 </span> -->
-                    <span style="flex-basis: 25%;"> <span id="{{ route.id}}" class="star-container">★★★★★</span> </span> 
-                        <script>
-                            // Funzione per aggiornare il riempimento delle stelle
-                            function updateStarRating(voto) {
-                                const percentage = (voto / 5) * 100;
-                                const starElement = document.getElementById("{{route.id}}"); 
-                                starElement.style.setProperty('--filled-star-width', `${percentage}%`);
-                            }
-                            updateStarRating({{ route.avg_score }});
-                        </script>
+                    <span style="flex-basis: 25%;"> <span id="{{ route.id}}" class="star-container" style="--filled-star-width: {{route.avg_score *100/5}}%">★★★★★</span> </span> 
                 </div>
             {% endfor %}
         </div>
