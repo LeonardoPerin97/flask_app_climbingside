@@ -108,9 +108,8 @@
     <div>
         <label for="sort">Sort by:</label>
         <select id="sort" name="sort" onchange="changeSortOption()">    <!-- onchange="window.location.href = '?sort_by=' + this.value;"> -->
-            <option value="id" {% if sort_by == 'id' %}selected{% endif %}>Default Order</option>
-            <option value="grade" {% if sort_by == 'grade' %}selected{% endif %}>Climbing Grade</option>
             <option value="date" {% if sort_by == 'date' %}selected{% endif %}>Date</option>
+            <option value="grade" {% if sort_by == 'grade' %}selected{% endif %}>Climbing Grade</option>
         </select>
     </div>
 
