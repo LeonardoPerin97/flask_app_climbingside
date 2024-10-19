@@ -157,16 +157,7 @@
                     <td><strong>{{ route.grade }}</strong></td>
                     <td>{{ display_grade(route.proposed_grade) }}</td> <!-- Display proposed grade or 'N/A' if none -->
                     <!--<td>{{ route.score }}/5</td> -->
-                    <td><span id="{{ route.id}}" class="star-container">★★★★★</span> </td> 
-                        <script>
-                            // Funzione per aggiornare il riempimento delle stelle
-                            function updateStarRating(voto) {
-                                const percentage = (voto / 5) * 100;
-                                const starElement = document.getElementById("{{route.id}}"); 
-                                starElement.style.setProperty('--filled-star-width', `${percentage}%`);
-                            }
-                            updateStarRating({{ route.score }});
-                        </script>
+                    <td><span id="{{ route.id}}" class="star-container" style="--filled-star-width: {{route.score *100/5}}%">★★★★★</span> </td> 
                     <td>{{ route.date.strftime('%Y-%m-%d') }}</td>  <!-- Display the date in the table -->
                 </tr>
             {% endfor %}
