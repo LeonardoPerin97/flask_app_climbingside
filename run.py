@@ -16,10 +16,14 @@ with app.app_context():
         wall_b = Wall(name="B")
         wall_c = Wall(name="C")
         wall_d = Wall(name="D")
+        wall_boulder = Wall(name="Sala Boulder")
+        wall_esterno = Wall(name="Esterno")
         db.session.add(wall_a)
         db.session.add(wall_b)
         db.session.add(wall_c)
         db.session.add(wall_d)
+        db.session.add(wall_boulder)
+        db.session.add(wall_esterno)
         db.session.commit()
 
 
