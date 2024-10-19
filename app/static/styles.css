@@ -177,7 +177,7 @@ body {
 .star-container {
     position: relative;
     display: inline-block;
-    font-size: 20px; /* Dimensione della stella */
+    font-size: 19px; /* Dimensione della stella */
     color: lightgray; /* Colore stella vuota */
 }
 
