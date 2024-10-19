@@ -65,7 +65,7 @@ def user_page(user_id):
     routes = user.routes  # Get the routes that this user has added
     nreps=len(routes)
     # Get the sorting option from the request arguments (default to 'id')
-    sort_by = request.args.get('sort_by', 'id')  # Default to 'id' if not specified
+    sort_by = request.args.get('sort_by', 'date')  # Default to 'id' if not specified
 
     # Sort the routes based on the selected criteria
     if sort_by == 'grade':
