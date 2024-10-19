@@ -113,10 +113,71 @@
     {% endif %}
 
 
-
     <br>
     <br>
+    <br>
+    <br>
+    <p> Number of routes: <strong style="font-family: Verdana, sans-serif;">{{nroutes}}</strong></p>
+    <br> 
+    <canvas id="grade-histogram" width="600" height="300"></canvas> 
 
+    <!-- Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // Prepare the grade frequencies data from the backend
+        const gradeFrequencies = {{ grade_distribution | tojson }};
+        const grades = Object.keys(gradeFrequencies);
+        const frequencies = Object.values(gradeFrequencies);
+        // Create the histogram using Chart.js
+        const ctx = document.getElementById('grade-histogram').getContext('2d');
+        const gradeHistogram = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: grades,  // X-axis labels (formatted grades)
+                datasets: [{
+                    label: 'Number of Routes',
+                    data: frequencies,  // Y-axis data (frequencies)
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: false,  // Set to false to make it non-responsive and fixed size
+                maintainAspectRatio: false,  // This will allow you to change the width and height freely
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1,   // Ensure ticks increment by 1
+                            callback: function(value) {
+                                return Number.isInteger(value) ? value : null;  // Show only integer tick values
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Number of Routes'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Grades'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+    </script>
+
+        
+    <br>
     <br>
     <br>
     <a href="{{ url_for('routes.add_route') }}">Add a New Route</a> <!-- Link to the add_route page -->
@@ -124,12 +185,8 @@
     <a href="{{ url_for('routes.routes_list_with_delete') }}">Delete a Route</a> <!-- Link to the delete_route page -->
     <br>
     <br>
+    <br>
 
-    <!--
-    <a href="{{ url_for('home.homepage') }}" class="link2">Home</a>
-    -->
-
-    
     
     </div>
 
