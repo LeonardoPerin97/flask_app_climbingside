@@ -130,6 +130,7 @@ li {
     position: fixed; /* Fissa la barra in alto */
     top: 0;
     width: 100%; /* La barra copre tutta la larghezza della pagina */
+    z-index: 9999; /* Un valore alto per assicurarsi che sia sopra tutti gli altri elementi */
 }
 
 /* Stile per i link della barra */
