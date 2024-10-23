@@ -455,7 +455,64 @@
 
     <br>
     <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <!-- Solo l'admin può inserire l'immagine -->
+    {% if current_user.is_authenticated and current_user.id == 1 and not route.image_file %}
+
+        <button id="add-image-btn">Add Image</button>
+
+        <div id="add-image-form" style="display: none; margin-top: 20px;">
+            <form method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="action" value="add_image">
+                <label for="image">Load Image</label>
+                <input type="file" name="image" id="image" class="form-control-file">
+                <button type="submit" class="btn btn-primary">Load Image</button>
+            </form>
+        </div>
+
+        <script>
+            document.getElementById('add-image-btn').addEventListener('click', function() {
+                // Simply show the form and hide the button
+                document.getElementById('add-image-form').style.display = 'block';
+                this.style.display = 'none'; // Hide the button
+            });
+        </script>
+
+    {% endif %}
+
+
+    {% if route.image_file %}
+        <div class="route-image">
+            <img src="{{ route.image_file }}" alt="{{ route.name }}" class="img-fluid">
+        </div>
+
+        {% if current_user.is_authenticated and current_user.id == 1  %}
+        <!-- Form per eliminare l'immagine -->
+        <form method="POST" action="{{ url_for('routes.delete_image', route_id=route.id) }}">
+            <input type="hidden" name="delete_image" value="true">
+            <button type="submit" class="btn btn-danger">Delete Image</button>
+        </form>
+        {% endif %}
+
+    {% else %}
+        <div class="route-image">
+            <p>No image loaded for this Route.</p>
+        </div>
+    {% endif %}
+
+
+        
     </div>
+    
+
+    <br>
+    <br>
+    <br>
+    <br>
     <br>
     <br>
 
