@@ -216,7 +216,7 @@ def route_page(route_id):
                     route.image_file = image_url  # Salva l'URL dell'immagine nel database
                     db.session.commit()
                     
-return render_template('routes/route_page.html', route=route, users_with_grades=users_with_grades, avg_score=avg_score, avg_proposed_grade=avg_proposed_grade, full_grade_frequencies=full_grade_frequencies,grade_labels=grade_labels, n_rep=n_rep, current_user_repetition=current_user_repetition)
+    return render_template('routes/route_page.html', route=route, users_with_grades=users_with_grades, avg_score=avg_score, avg_proposed_grade=avg_proposed_grade, full_grade_frequencies=full_grade_frequencies,grade_labels=grade_labels, n_rep=n_rep, current_user_repetition=current_user_repetition)
 
 
 
