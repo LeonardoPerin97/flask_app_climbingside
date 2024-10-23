@@ -240,6 +240,31 @@ def remove_route_rep(route_id):
     return redirect(url_for('routes.route_page', route_id=route.id))
 
 
+@routes.route('/routes/<int:route_id>/delete_image', methods=['POST'])
+@login_required
+def delete_image(route_id):
+    route = Route.query.get_or_404(route_id)
+
+    if request.method == 'POST' and 'delete_image' in request.form:
+        # Se l'utente ha caricato un'immagine
+        if route.image_file:
+            # (Facoltativo) Elimina l'immagine da Cloudinary
+            # Estrai il public_id dall'URL dell'immagine su Cloudinary, se desideri eliminare anche dal cloud
+            public_id = route.image_file.split('/')[-1].split('.')[0]  # Ottiene l'ID pubblico
+            cloudinary.uploader.destroy(public_id)  # Cancella l'immagine da Cloudinary
+
+            # Imposta il campo dell'immagine a None o al valore predefinito (es. 'default.jpg')
+            route.image_file = None #'default.jpg'  # O None, se non vuoi avere un'immagine predefinita
+
+            # Aggiorna il database
+            db.session.commit()
+
+            flash('Immagine eliminata con successo!', 'success')
+        else:
+            flash('Nessuna immagine da eliminare.', 'warning')
+
+    return redirect(url_for('routes.route_page', route_id=route_id))
+
 
 
 
