@@ -1,5 +1,21 @@
 #app/utils.py
 
+
+
+import cloudinary
+import cloudinary.uploader
+import secrets
+import os
+def save_route_picture(form_picture):
+    # Usa Cloudinary per caricare l'immagine
+    result = cloudinary.uploader.upload(form_picture)
+    
+    # Restituisci l'URL sicuro dell'immagine caricata
+    return result['secure_url']
+
+
+
+
 def display_grade_backend(combined_grade_value):
     
     if isinstance(combined_grade_value, str):
