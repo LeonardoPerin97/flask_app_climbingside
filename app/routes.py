@@ -9,7 +9,10 @@ from datetime import datetime
 from app.models import Route, User, user_route, Wall
 from app.forms import RouteForm
 from app.utils import display_grade_backend
+from app.utils import save_route_picture
 from app import db
+import cloudinary
+import cloudinary.uploader
 
 
 routes = Blueprint('routes', __name__)
@@ -161,48 +164,59 @@ def route_page(route_id):
     grade_labels = {int(grade): display_grade_backend(int(grade)) for grade in all_grades}
 
     if request.method == 'POST' and current_user.is_authenticated:
-        score = request.form.get('score')  # Get the score from the form
-        proposed_grade = request.form.get('proposed_grade')  # Get the proposed_grade from the form
-        date = request.form.get('date')  # Get the date from the form
         action = request.form.get('action')  # Identify if it's an add or edit action
-
-        # Validate the date (optional: handle errors if the date is not valid)
-        try:
-            date = datetime.strptime(date, '%Y-%m-%d')  # Convert string to datetime object
-        except ValueError:
-            flash('Invalid date format. Please select a valid date.', 'danger')
-            return redirect(url_for('routes.route_page', route_id=route_id))
-        # Validate form data
-        if score is None or proposed_grade is None:
-            flash('Score and proposed grade are required.', 'danger')
-            return redirect(url_for('routes.route_page', route_id=route_id))
-        # Convert proposed_grade to int for processing
-        try:
-            proposed_grade = int(proposed_grade)
-            score = int(score)
-        except ValueError:
-            flash('Invalid input for score or proposed grade.', 'danger')
-            return redirect(url_for('routes.route_page', route_id=route_id))
-        
-        # Check if repetition is already added
-        if action == 'add':
-            if current_user not in route.users:
-                #route.users.append(current_user)
-                db.session.execute(user_route.insert().values(user_id=current_user.id, route_id=route.id, score=score, proposed_grade=proposed_grade, date=date))
+        if action == 'add' or action == 'edit':
+            score = request.form.get('score')  # Get the score from the form
+            proposed_grade = request.form.get('proposed_grade')  # Get the proposed_grade from the form
+            date = request.form.get('date')  # Get the date from the form
+            
+            # Validate the date (optional: handle errors if the date is not valid)
+            try:
+                date = datetime.strptime(date, '%Y-%m-%d')  # Convert string to datetime object
+            except ValueError:
+                flash('Invalid date format. Please select a valid date.', 'danger')
+                return redirect(url_for('routes.route_page', route_id=route_id))
+            # Validate form data
+            if score is None or proposed_grade is None:
+                flash('Score and proposed grade are required.', 'danger')
+                return redirect(url_for('routes.route_page', route_id=route_id))
+            # Convert proposed_grade to int for processing
+            try:
+                proposed_grade = int(proposed_grade)
+                score = int(score)
+            except ValueError:
+                flash('Invalid input for score or proposed grade.', 'danger')
+                return redirect(url_for('routes.route_page', route_id=route_id))
+            
+            # ADD
+            if action == 'add':
+                if current_user not in route.users:
+                    #route.users.append(current_user)
+                    db.session.execute(user_route.insert().values(user_id=current_user.id, route_id=route.id, score=score, proposed_grade=proposed_grade, date=date))
+                    db.session.commit()
+                    flash(f'{current_user.username} added to {route.name}!', 'success')
+                else:
+                    flash(f'You have already added your repetition of {route.name}.', 'info')
+            # EDIT
+            elif action == 'edit':  # Edit the existing repetition
+                # Update the user's repetition in the database
+                db.session.execute(user_route.update().where(
+                    (user_route.c.user_id == current_user.id) & 
+                    (user_route.c.route_id == route.id)
+                ).values(score=score, proposed_grade=proposed_grade, date=date))
                 db.session.commit()
-                flash(f'{current_user.username} added to {route.name}!', 'success')
-            else:
-                flash(f'You have already added your repetition of {route.name}.', 'info')
-        elif action == 'edit':  # Edit the existing repetition
-            # Update the user's repetition in the database
-            db.session.execute(user_route.update().where(
-                (user_route.c.user_id == current_user.id) & 
-                (user_route.c.route_id == route.id)
-            ).values(score=score, proposed_grade=proposed_grade, date=date))
-            db.session.commit()
-            flash(f'Your repetition of {route.name} has been updated!', 'success')
-        return redirect(url_for('routes.route_page', route_id=route_id))
-    return render_template('routes/route_page.html', route=route, users_with_grades=users_with_grades, avg_score=avg_score, avg_proposed_grade=avg_proposed_grade, full_grade_frequencies=full_grade_frequencies,grade_labels=grade_labels, n_rep=n_rep, current_user_repetition=current_user_repetition)
+                flash(f'Your repetition of {route.name} has been updated!', 'success')
+            return redirect(url_for('routes.route_page', route_id=route_id))
+
+        elif action == 'add_image':
+            if 'image' in request.files:
+                image_file = request.files['image']  # Ottieni il file immagine dal form
+                if image_file:
+                    image_url = save_route_picture(image_file)  # Funzione che carica su Cloudinary
+                    route.image_file = image_url  # Salva l'URL dell'immagine nel database
+                    db.session.commit()
+                    
+return render_template('routes/route_page.html', route=route, users_with_grades=users_with_grades, avg_score=avg_score, avg_proposed_grade=avg_proposed_grade, full_grade_frequencies=full_grade_frequencies,grade_labels=grade_labels, n_rep=n_rep, current_user_repetition=current_user_repetition)
 
 
 
