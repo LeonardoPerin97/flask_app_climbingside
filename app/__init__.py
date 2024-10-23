@@ -4,6 +4,9 @@ from flask import Flask, render_template, redirect, url_for, flash, request, sen
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from flask_sqlalchemy import SQLAlchemy
 import os
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 
 
@@ -28,25 +31,16 @@ def create_app():
     # Inizializza SQLAlchemy con l'istanza dell'app
     db.init_app(app)
 
-    #with app.app_context():
-    #    db.create_all() 
 
+    # Configuration Cloudinary (for routes images)       
+    cloudinary.config( 
+        cloud_name = "dptmtwlpr", 
+        api_key = "486591569557458", 
+        api_secret = "7gKXn4mBnFWWxZ-FkJ5wUsY-XWQ", # Click 'View API Keys' above to copy your API secret
+        secure=True
+    )
 
-    #from app.models import Wall
-    #with app.app_context():
-        # Controlla se i dati iniziali devono essere inseriti
-    #    if Wall.query.count() == 0:
-    #        wall_a = Wall(name="A")
-    #        wall_b = Wall(name="B")
-    #        wall_c = Wall(name="C")
-    #        wall_d = Wall(name="D")
-    #        db.session.add(wall_a)
-    #        db.session.add(wall_b)
-    #        db.session.add(wall_c)
-    #        db.session.add(wall_d)
-    #        db.session.commit()
-
-
+    
     # Initialize Flask-Login
     login_manager.init_app(app)
     login_manager.login_view = 'users.login'
