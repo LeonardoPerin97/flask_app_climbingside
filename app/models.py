@@ -41,6 +41,7 @@ class Route(db.Model):
     name = db.Column(db.String(100), nullable=False)
     grade = db.Column(db.String(3), nullable=False)
     wall_id = db.Column(db.Integer, db.ForeignKey('wall.id'), nullable=False)
+    image_file = db.Column(db.String(255), nullable=True)
 
     def __repr__(self):
         return f"Route('{self.name}', '{self.grade}', '{self.wall.name}')"
