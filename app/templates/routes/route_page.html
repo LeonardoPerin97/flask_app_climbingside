@@ -487,7 +487,7 @@
 
     {% if route.image_file %}
         <div class="route-image">
-            <img src="{{ route.image_file }}" alt="{{ route.name }}" class="img-fluid">
+            <img src="{{ route.image_file }}" alt="{{ route.name }}" class="img-fluid" style="width: 400px; height: auto;">
         </div>
 
         {% if current_user.is_authenticated and current_user.id == 1  %}
