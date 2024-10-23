@@ -460,7 +460,7 @@
     <br>
     <br>
 
-    <!-- Solo l'admin può inserire l'immagine -->
+    <!-- Solo l'admin (user.id = 1) può inserire l'immagine -->
     {% if current_user.is_authenticated and current_user.id == 1 and not route.image_file %}
 
         <button id="add-image-btn">Add Image</button>
