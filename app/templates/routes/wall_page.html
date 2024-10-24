@@ -206,8 +206,16 @@
                         title: {
                             display: true,
                             text: 'Grades'
+                        },
+                        ticks: {
+                            // Adjust the font size for the labels
+                            font: {
+                                size: function(context) {
+                                    const width = context.chart.width;
+                                    return width > 500 ? 12 : 8; // Change font size based on chart width
+                                    }
+                            }
                         }
-                    }
                 },
                 plugins: {
                     legend: {
