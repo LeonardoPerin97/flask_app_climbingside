@@ -136,7 +136,21 @@
     <br>
     <p> Number of routes: <strong style="font-family: Verdana, sans-serif;">{{nroutes}}</strong></p>
     <br> 
-    <canvas id="grade-histogram" width="400" height="300"></canvas> 
+    <canvas id="grade-histogram" width="600" height="300"></canvas> 
+
+    <style>
+      #grade-histogram {
+        width: 600px;
+        height: auto; /* Mantiene le proporzioni dell'altezza */
+      }
+      /* Media query per schermi piccoli (es. smartphone) */
+      @media (max-width: 600px) {
+        #grade-histogram {
+          width: 400px;
+          height: auto; /* Mantiene le proporzioni anche su schermi piccoli */
+        }
+      }
+    </style>
 
     <!-- Chart.js library -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -181,6 +195,17 @@
                         title: {
                             display: true,
                             text: 'Grades'
+                        },
+                        ticks: {
+                        // Adjust the font size for the labels
+                        font: {
+                            size: function(context) {
+                                const width = context.chart.width;
+                                return width > 500 ? 12 : 8; // Change font size based on chart width
+                            }
+                        },
+                        maxRotation: 45,  // Rotate labels to fit more on the X-axis
+                        minRotation: 0
                         }
                     }
                 },
