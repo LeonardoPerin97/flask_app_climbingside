@@ -147,7 +147,21 @@
     <br>
     <br>
     <br> 
-    <canvas id="grade-histogram" width="600" height="300"></canvas> 
+   
+    <canvas id="grade-histogram"></canvas> 
+    <style>
+      #grade-histogram {
+        width: 600px;
+        height: 300px; 
+      }
+      /* Media query per schermi piccoli (es. smartphone) */
+      @media (max-width: 600px) {
+        #grade-histogram {
+          width: 100%;
+          height: auto; /* Mantiene le proporzioni anche su schermi piccoli */
+        }
+      }
+    </style>  
 
     <!-- Chart.js library -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
