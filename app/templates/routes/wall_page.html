@@ -39,29 +39,46 @@
             return confirm('Do you want to logout?');
         }
     </script>
+    
     <!-- Barra di navigazione -->
     {% if current_user.is_authenticated %}
-    <div class="navbar">
-        <a href="{{ url_for('home.homepage') }}">Home</a>
-        <a href="{{ url_for('users.users_list') }}">Users</a>
-        <a href="{{ url_for('routes.walls_list') }}">Walls</a>
-        <a href="{{ url_for('routes.routes_list') }}">Routes</a>
-        <a href="{{ url_for('users.user_page', user_id=current_user.id) }}">Profile</a> 
-        <a href="{{ url_for('users.logout') }}"  onclick="return confirmLogout()">Logout</a>
-        <span class="navbar-right"><b>climbing side climbook</b></span>
-
-    </div>
+        <div class="navbar" id="myNavbar">
+            <span class="navbar-right"><b>climbing side climbook</b></span>
+            <a href="{{ url_for('home.homepage') }}">Home</a>
+            <a href="{{ url_for('users.users_list') }}">Users</a>
+            <a href="{{ url_for('routes.walls_list') }}">Walls</a>
+            <a href="{{ url_for('routes.routes_list') }}">Routes</a>
+            <a href="{{ url_for('users.user_page', user_id=current_user.id) }}">Profile</a> 
+            <a href="{{ url_for('users.logout') }}" onclick="return confirmLogout()" >Logout</a>
+            <a href="javascript:void(0);" class="icon" onclick="toggleMenu()">&#9776;</a> <!-- Icona hamburger -->
+        </div>
     {% else %}
-        <div class="navbar">
+        <div class="navbar" id="myNavbar">
+            <span class="navbar-right"><b>climbing side climbook</b></span>
             <a href="{{ url_for('home.homepage') }}">Home</a>
             <a href="{{ url_for('users.users_list') }}">Users</a>
             <a href="{{ url_for('routes.walls_list') }}">Walls</a>
             <a href="{{ url_for('routes.routes_list') }}">Routes</a>
             <a href="{{ url_for('users.login') }}" >Login</a> 
             <a href="{{ url_for('users.register') }}" >Register</a> 
-            <span class="navbar-right"><b>climbing side climbook</b></span>
+            <a href="javascript:void(0);" class="icon" onclick="toggleMenu()">&#9776;</a> <!-- Icona hamburger -->
         </div>
     {% endif %}
+
+    <script>
+    function toggleMenu() {
+        var navbar = document.getElementById("myNavbar");
+        var icon = document.querySelector(".navbar a.icon");
+    
+        if (navbar.className === "navbar") {
+            navbar.className += " responsive";
+            icon.innerHTML = "&#10005;"; // Cambia l'icona in una X (simbolo Unicode X)
+        } else {
+            navbar.className = "navbar";
+            icon.innerHTML = "&#9776;"; // Cambia l'icona di nuovo nell'hamburger (simbolo Unicode hamburger)
+        }
+    }
+    </script>
 
 
     <br>
