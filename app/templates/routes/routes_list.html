@@ -137,29 +137,22 @@
     <p> Number of routes: <strong style="font-family: Verdana, sans-serif;">{{nroutes}}</strong></p>
     <br> 
 
-    <canvas id="grade-histogram" width="600" height="300">
-    <style>
-      /* Imposta la larghezza al 100% del contenitore */
-      #grade-histogram {
-        width: 100%;  /* Utilizza la larghezza completa del contenitore */
-        height: auto; /* Mantiene le proporzioni corrette */
-      }
-    </style>
+    <!-- <canvas id="grade-histogram" width="600" height="300"></canvas> -->
         
-    <!--  <canvas id="grade-histogram" width="600" height="300"></canvas> 
+    <canvas id="grade-histogram"></canvas> 
     <style>
       #grade-histogram {
         width: 600px;
-        height: auto; /* Mantiene le proporzioni dell'altezza */
+        height: 300px; 
       }
       /* Media query per schermi piccoli (es. smartphone) */
       @media (max-width: 600px) {
         #grade-histogram {
           width: 400px;
-          height: auto; /* Mantiene le proporzioni anche su schermi piccoli */
+          height: 300px; /* Mantiene le proporzioni anche su schermi piccoli */
         }
       }
-    </style>  -->
+    </style>  
 
     <!-- Chart.js library -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
