@@ -123,6 +123,19 @@ li {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* Stile per la barra di navigazione */
 .navbar {
     background-color: #333;
@@ -161,10 +174,88 @@ li {
 
 
 
+/* Stile per l'icona hamburger */
+.navbar a.icon {
+    float: right;
+    display: none; /* Nascondila di default su schermi grandi */
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 14px 20px;
+    font-size: 16px;
+}
+
+
+
+
+/* Nascondere i link e mostrare l'icona su schermi piccoli */
+@media screen and (max-width: 600px) {
+    .navbar a { 
+        display: none; /* Nascondi i link */
+    }
+    
+    .navbar-right {
+        float: left; /* Allinea l'elemento a destra */
+        color: white;
+        padding: 14px 20px;
+        text-align: left;
+        font-family: Verdana, sans-serif;
+        display: block;
+    }
+    
+    .navbar a.icon {
+        display: block;
+    }
+}
+
+
+
+
+/* Mostra il menu a tendina quando viene cliccato */
+@media screen and (max-width: 600px) {
+    /*.navbar.responsive {
+        position: relative;
+    }*/
+    .navbar.responsive a {
+        float: none;
+        display: block;
+        text-align: left;
+    }
+
+    .navbar.responsive .navbar-right {
+        float: none; /* Allinea l'elemento a destra */
+        text-align: left;
+        display: block;
+        padding-bottom: 10px;
+    }
+    
+}
+
+
+
+
+
 /* Aggiungi un po' di padding alla parte superiore del contenuto */
 .content {
     padding-top: 30px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /*
