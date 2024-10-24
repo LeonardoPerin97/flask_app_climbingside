@@ -353,5 +353,20 @@ def wall_page(wall_id):
             'done': user_has_done
         }
         routes_list.append(route_data)
-    return render_template('routes/wall_page.html', wall=wall,n_routes=n_routes,n_reps=n_reps, routes=routes_list, sort_order=sort_order)
+
+    allroutes = db.session.query(Route).filter(Route.wall_id == wall_id).group_by(Route.id)
+    grades = [route.grade for route in allroutes]
+    french_grades = [
+    "4a", "4a+", "4b", "4b+", "4c", "4c+", 
+    "5a", "5a+", "5b", "5b+", "5c", "5c+", 
+    "6a", "6a+", "6b", "6b+", "6c", "6c+",
+    "7a", "7a+", "7b", "7b+", "7c", "7c+",
+    "8a", "8a+", "8b", "8b+", "8c", "8c+",
+    "9a", "9a+", "9b", "9b+", "9c"
+    ]
+    grade_frequencies = dict(Counter(grades))
+    # Ensure all grades in the range have a frequency (fill missing with 0)
+    grade_distribution = {grade: grade_frequencies.get(grade, 0) for grade in french_grades}
+    
+    return render_template('routes/wall_page.html', wall=wall,n_routes=n_routes,n_reps=n_reps, routes=routes_list, sort_order=sort_order, grade_distribution=grade_distribution)
 
