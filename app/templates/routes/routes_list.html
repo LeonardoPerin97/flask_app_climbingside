@@ -104,9 +104,9 @@
     {% if routes %}
         <div class="table" style="font-family: Verdana, sans-serif;">
             <div class="row" style="border-bottom: 2px solid black; padding-bottom: 5px;"> 
-                <span style="flex-basis: 25%;"> name </span>
-                <span style="flex-basis: 3%;"> </span>
-                <span style="flex-basis: 20%;"> wall </span>
+                <span style="flex-basis: 28%;"> name </span>
+                <span style="flex-basis: 2%;"> </span>
+                <span style="flex-basis: 18%;"> wall </span>
                 <span style="flex-basis: 15%;"> grade </span>
                 <!--<span style="flex-basis: 15%;"> proposed </span>-->
                 <span style="flex-basis: 14%;"> reps </span> 
@@ -114,9 +114,9 @@
             </div>
             {% for route in routes %}
                 <div class="row" style = "display: flex; align-items: center; {% if route.done %} background-color: rgba(255, 240, 0, 0.4); {% endif %} "> 
-                    <a href="{{ url_for('routes.route_page', route_id=route.id) }}" class="link6" style="flex-basis: 25%; overflow-wrap: anywhere; word-break: normal;"><strong>{{ route.name }} </strong></a>
-                    <span style="flex-basis: 3%;"> </span>
-                    <a href="{{ url_for('routes.wall_page', wall_id=route.wall_id) }}" class="link6" style="flex-basis: 20%; font-weight: normal;">{{ route.wall }} </a>
+                    <a href="{{ url_for('routes.route_page', route_id=route.id) }}" class="link6" style="flex-basis: 28%; overflow-wrap: anywhere; word-break: normal;"><strong>{{ route.name }} </strong></a>
+                    <span style="flex-basis: 2%;"> </span>
+                    <a href="{{ url_for('routes.wall_page', wall_id=route.wall_id) }}" class="link6" style="flex-basis: 18%; font-weight: normal;">{{ route.wall }} </a>
                     <span style="flex-basis: 15%;"> <strong>{{ route.grade }}</strong> <br> {{ route.avg_proposed_grade }}  </span>
                     <!--<span style="flex-basis: 15%;"> {{ route.avg_proposed_grade }} </span> -->
                     <span style="flex-basis: 14%;"> {{ route.repetitions }} </span> 
@@ -136,7 +136,7 @@
     <br>
     <p> Number of routes: <strong style="font-family: Verdana, sans-serif;">{{nroutes}}</strong></p>
     <br> 
-    <canvas id="grade-histogram" width="600" height="300"></canvas> 
+    <canvas id="grade-histogram" width="400" height="300"></canvas> 
 
     <!-- Chart.js library -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
