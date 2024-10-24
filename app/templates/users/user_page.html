@@ -116,7 +116,20 @@
     -->
 
     <br>
-    <canvas id="grade-histogram" width="600" height="300"></canvas> 
+    <canvas id="grade-histogram"></canvas> 
+    <style>
+      #grade-histogram {
+        width: 600px;
+        height: 300px; 
+      }
+      /* Media query per schermi piccoli (es. smartphone) */
+      @media (max-width: 600px) {
+        #grade-histogram {
+          width: 100%;
+          height: auto; /* Mantiene le proporzioni anche su schermi piccoli */
+        }
+      }
+    </style>  
     <br>
     <br>
     
@@ -242,6 +255,15 @@
                         title: {
                             display: true,
                             text: 'Grades'
+                        },
+                        ticks: {
+                            // Adjust the font size for the labels
+                            font: {
+                                size: function(context) {
+                                    const width = context.chart.width;
+                                    return width > 500 ? 12 : 8; // Change font size based on chart width
+                                }
+                            }
                         }
                     }
                 },
