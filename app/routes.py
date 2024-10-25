@@ -39,7 +39,7 @@ def routes_list():
     elif sort_order == 'avg_score':
         routes = base_query.order_by(func.coalesce(func.avg(user_route.c.score), 0).desc()).all()
     elif sort_order == 'alph':
-        routes = base_query.order_by(Route.name).all()
+        routes = base_query.order_by(func.lower(Route.name)).all()
     else:
         routes = base_query.order_by(Route.id).all()
         
