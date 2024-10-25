@@ -29,7 +29,7 @@
             <a href="{{ url_for('routes.routes_list') }}">Routes</a>
             <a href="{{ url_for('users.user_page', user_id=current_user.id) }}">Profile</a> 
             <a href="{{ url_for('users.logout') }}" onclick="return confirmLogout()" >Logout</a>
-            <a href="javascript:void(0);" class="icon" onclick="toggleMenu()">&#9776;</a> <!-- Icona hamburger -->
+            <a href="javascript:void(0);" class="icon" onclick="toggleMenu()"> <b>&#9776;</b> </a> <!-- Icona hamburger -->
         </div>
     {% else %}
         <div class="navbar" id="myNavbar">
