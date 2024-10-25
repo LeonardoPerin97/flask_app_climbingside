@@ -201,6 +201,7 @@ li {
         text-align: left;
         font-family: Verdana, sans-serif;
         display: block;
+        font-size: 18px;
     }
     
     .navbar a.icon {
@@ -223,7 +224,7 @@ li {
     }
 
     .navbar.responsive .navbar-right {
-        float: none; /* Allinea l'elemento a destra */
+        float: none; 
         text-align: left;
         display: block;
         padding-bottom: 10px;
