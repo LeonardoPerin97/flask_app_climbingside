@@ -122,7 +122,11 @@
                     <!--<span style="flex-basis: 15%;"> {{ route.avg_proposed_grade }} </span> -->
                     <span style="flex-basis: 14%;"> {{ route.repetitions }} </span> 
                     <!--<span style="flex-basis: 15%;"> {{ route.avg_score | round(2) }}/5 </span>-->
-                    <span style="flex-basis: 23%;"> <span id="{{ route.id}}" class="star-container" style="--filled-star-width: {{route.avg_score *100/5}}%">★★★★★</span> </span> 
+                    {% if route.avg_score != 0 %}
+                        <span style="flex-basis: 23%;"> <span id="{{ route.id}}" class="star-container" style="--filled-star-width: {{route.avg_score *100/5}}%">★★★★★</span> </span> 
+                    {% else %}
+                        <span style="flex-basis: 23%;"> </span>
+                    {% endif %}
                 </div>
             {% endfor %}
         </div>
