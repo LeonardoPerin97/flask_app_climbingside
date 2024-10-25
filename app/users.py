@@ -147,10 +147,17 @@ def users_list():
         users_with_stats = users_with_stats.order_by(User.id)
 
     users = users_with_stats.all()
+    n_users = len(users)
 
     # Check if the user is logged in
     if current_user.is_authenticated:
         current_username = current_user.username
     else:
         current_username = None  # No logged-in user
-    return render_template('users/users_list.html', users=users, current_username=current_username, sort_order=sort_order )
+    return render_template('users/users_list.html', users=users, current_username=current_username, sort_order=sort_order, n_users=n_users)
+
+
+
+
+
+
