@@ -19,13 +19,13 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         # Check if the username already exists
-        existing_user = User.query.filter_by(username=form.username.data).first()
+        existing_user = User.query.filter_by(username=form.username.data.strip()).first()
         if existing_user:
             flash('Username already exists. Please choose a different one.', 'danger')
             session['message'] = ('danger', 'Username already exists. Please choose a different one.')
         else:
              # Create a new user and save to the database
-            new_user = User(username=form.username.data, password=form.password.data)
+            new_user = User(username=form.username.data, password=form.password.data.strip())
             db.session.add(new_user)
             db.session.commit()
             flash(f'Account created for {form.username.data}!', 'success')
@@ -39,7 +39,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         # Look up the user in the database
-        user = User.query.filter_by(username=form.username.data).first()
+        user = User.query.filter_by(username=form.username.data.strip()).first()
         if user and user.password == form.password.data:
             login_user(user)
             flash('Login successful!', 'success')
