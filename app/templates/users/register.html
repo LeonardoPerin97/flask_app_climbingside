@@ -42,9 +42,11 @@
     <br>
     <br>
     <br>
+
     
     <div class="content">
     <h1>Register</h1>
+        
     <form method="POST">
         {{ form.hidden_tag() }}
         <p>{{ form.username.label }} {{ form.username(size=20) }}</p>
@@ -52,6 +54,28 @@
         <p>{{ form.confirm_password.label }} {{ form.confirm_password(size=20) }}</p>
         <p>{{ form.submit() }}</p>
     </form>
+
+    {% if session.get('message') %}
+        <div id="notification" class="notification" style="display: none; color: #ff0000;">
+            {{ session.message[1] }}
+        </div>
+        <script>
+            document.getElementById('notification').style.display = 'block';
+        </script>
+        {% set _ = session.pop('message') %}
+    {% endif %}
+
+    {% if form.errors %}
+        <div class="alert alert-danger">
+            {% for field, errors in form.errors.items() %}
+                {% for error in errors %}
+                    <p style="color: #ff0000;">{{ field }}: {{ error }}</p>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    {% endif %}
+        
+    <br>
     <a href="{{ url_for('users.login') }}">Already have an account? Login here.</a> | 
     <a href="{{ url_for('home.homepage') }}">Home</a>
     </div>
