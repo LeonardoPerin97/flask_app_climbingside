@@ -44,18 +44,29 @@
     <br>
     <br>
     
-    <div class="content">
-    <div style="width: 400px; height: auto;"> 
+    <div class="content"> 
     <h1>Login</h1>
+        
     <form method="POST">
         {{ form.hidden_tag() }}
         <p>{{ form.username.label }} {{ form.username(size=20) }}</p>
         <p>{{ form.password.label }} {{ form.password(size=20) }}</p>
         <p>{{ form.submit() }}</p>
     </form>
+        
+    {% if session.get('message') %}
+        <div id="notification" class="notification" style="display: none; color: #ff0000;">
+            {{ session.message[1] }}
+        </div>
+        <script>
+            document.getElementById('notification').style.display = 'block';
+        </script>
+        {% set _ = session.pop('message') %}
+    {% endif %}
+        
+    <br>
     <a href="{{ url_for('users.register') }}">Don't have an account? Register here.</a> | 
     <a href="{{ url_for('home.homepage') }}">Home</a>
-    </div>
     </div>
 
     
