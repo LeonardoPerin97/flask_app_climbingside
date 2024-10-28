@@ -68,23 +68,25 @@
     <br>
     <br>
     <br>
-    <br>
-    
-    <!-- Add an image -->
-    <img src="{{ url_for('static', filename='images/logo2.jpg') }}" style="width: 400px; height: auto;">
-    
+
     {% if current_user.is_authenticated %}
 
-        <br>
+        
         <p>Welcome <strong style="font-family: Verdana, sans-serif;">{{ current_user.username }}</strong>!</p>
 
     {% else %}
 
-        <br>
-        <p>Welcome to the <span style="font-family: Verdana, sans-serif;">Climbing Side climbook</span>!</p>
-        <p>You are not logged in.</p>
+        
+        <p>Welcome to the <span style="font-family: Verdana, sans-serif;"><b>Climbing Side climbook</b></span></p>
+        <p>Here you can record your ascents of the gym routes. <br>Log in to proceed!</p>
 
     {% endif %}
+
+    <br>
+        
+    <!-- Add an image -->
+    <img src="{{ url_for('static', filename='images/logo2.jpg') }}" style="width: 350px; height: auto;">
+    
 
     
     <br>
