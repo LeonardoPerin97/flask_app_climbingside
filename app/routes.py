@@ -34,6 +34,8 @@ def routes_list():
     # Modify the query based on the selected sort order
     if sort_order == 'asc':
         routes = base_query.order_by(Route.grade).all()
+    elif sort_order == 'desc':
+        routes = base_query.order_by(desc(Route.grade)).all()
     elif sort_order == 'repetitions':
         routes = base_query.order_by(func.count(user_route.c.route_id).desc()).all()
     elif sort_order == 'avg_score':
