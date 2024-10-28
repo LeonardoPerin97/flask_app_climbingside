@@ -1,6 +1,6 @@
 #app/users.py
 
-from flask import Blueprint, render_template, redirect, url_for, flash, request
+from flask import Blueprint, render_template, redirect, url_for, flash, request, session
 from flask_login import login_user, login_required, logout_user, current_user
 from collections import Counter
 from sqlalchemy import func, desc
@@ -22,6 +22,7 @@ def register():
         existing_user = User.query.filter_by(username=form.username.data).first()
         if existing_user:
             flash('Username already exists. Please choose a different one.', 'danger')
+            session['message'] = ('danger', 'Username already exists. Please choose a different one.')
         else:
              # Create a new user and save to the database
             new_user = User(username=form.username.data, password=form.password.data)
@@ -45,6 +46,10 @@ def login():
             return redirect(url_for('home.homepage'))
         else:
             flash('Login failed. Check your username and password.', 'danger')
+            if user:
+                session['message'] = ('danger', 'Wrong password.')
+            else:
+                session['message'] = ('danger', "Username doesn't exists.")
     return render_template('users/login.html', form=form)
 
 
