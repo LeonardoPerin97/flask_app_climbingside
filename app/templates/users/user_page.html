@@ -46,7 +46,7 @@
     <!-- Barra di navigazione -->
     {% if current_user.is_authenticated %}
         <div class="navbar" id="myNavbar">
-            <span class="navbar-right"><b>climbing side climbook</b></span>
+            <span class="navbar-right"><b>climbing side</b></span>
             <a href="{{ url_for('home.homepage') }}">Home</a>
             <a href="{{ url_for('users.users_list') }}">Users</a>
             <a href="{{ url_for('routes.walls_list') }}">Walls</a>
@@ -57,7 +57,7 @@
         </div>
     {% else %}
         <div class="navbar" id="myNavbar">
-            <span class="navbar-right"><b>climbing side climbook</b></span>
+            <span class="navbar-right"><b>climbing side</b></span>
             <a href="{{ url_for('home.homepage') }}">Home</a>
             <a href="{{ url_for('users.users_list') }}">Users</a>
             <a href="{{ url_for('routes.walls_list') }}">Walls</a>
