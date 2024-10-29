@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - Climbing Side Climbook</title>
+    <title>Home - Climbing Side</title>
 
     <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
 
@@ -24,7 +24,7 @@
     <!-- Barra di navigazione -->
     {% if current_user.is_authenticated %}
         <div class="navbar" id="myNavbar">
-            <span class="navbar-right"><b>climbing side climbook</b></span>
+            <span class="navbar-right"><b>climbing side</b></span>
             <a href="{{ url_for('home.homepage') }}">Home</a>
             <a href="{{ url_for('users.users_list') }}">Users</a>
             <a href="{{ url_for('routes.walls_list') }}">Walls</a>
@@ -35,7 +35,7 @@
         </div>
     {% else %}
         <div class="navbar" id="myNavbar">
-            <span class="navbar-right"><b>climbing side climbook</b></span>
+            <span class="navbar-right"><b>climbing side</b></span>
             <a href="{{ url_for('home.homepage') }}">Home</a>
             <a href="{{ url_for('users.users_list') }}">Users</a>
             <a href="{{ url_for('routes.walls_list') }}">Walls</a>
@@ -77,7 +77,7 @@
     {% else %}
 
         
-        <p>Welcome to the <span style="font-family: Verdana, sans-serif;"><b>Climbing Side climbook</b></span></p>
+        <p>Welcome to <span style="font-family: Verdana, sans-serif;"><b>Climbing Side Ascents/Routes/Logbook/Libere</b></span></p>
         <p>Here you can record your ascents of the gym routes. <br>Log in to proceed!</p>
 
     {% endif %}
