@@ -160,7 +160,10 @@ def route_page(route_id):
     min_grade = int(min(grades)) if grades else 0
     max_grade = int(max(grades)) if grades else 0
     # Create a full list of grades from min_grade to max_grade
-    all_grades = list(range(min_grade, max_grade + 1))  
+    if min_grade > 0 and max_grade < 350:
+        all_grades = list(range(min_grade - 1, max_grade + 2))  
+    elif min_grade == 0 or max_grade == 350:
+        all_grades = list(range(min_grade, max_grade + 1))  
     # Count the frequency of each proposed grade
     grade_frequencies = dict(Counter(grades))
     # Ensure all grades in the range have a frequency (fill missing with 0)
