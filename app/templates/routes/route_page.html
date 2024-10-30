@@ -117,13 +117,15 @@
 
     <p style="font-family: Verdana, sans-serif;"> <a href="{{ url_for('routes.wall_page', wall_id=route.wall_id) }}" class="link6" >Wall {{ route.wall.name }} </a> </p>
 
-
+    <br>
+    <br>
 
     {% if current_user.is_authenticated %}
     <!-- Check if current_user is already in route.users -->
         {% if current_user in route.users %}
             <p>
                 You have already added a repetition.
+                <br>
                 <!-- Display the user's proposed grade and score -->
                 {% if current_user_repetition %}
                     Proposed grade: <strong style="font-family: Verdana, sans-serif;">{{ display_grade(current_user_repetition.proposed_grade) }}</strong>,
@@ -203,6 +205,7 @@
                 <input type="date" id="edit_date" name="date" required>
 
                 <button type="submit">Update</button>
+                <button type="button" id="cancel-edit-btn">Cancel</button> 
              </form>
             </div>
 
@@ -344,10 +347,17 @@
             this.appendChild(hiddenInput);
             this.submit();
         });
+
+        // Funzionalità per il bottone Annulla
+        document.getElementById('cancel-edit-btn').addEventListener('click', function() {
+            document.getElementById('edit-repetition-form').style.display = 'none'; // Nasconde il form
+            document.getElementById('edit-form-btn').style.display = 'block'; // Mostra il bottone Edit
+        });
         
     </script>
 
 
+    <br>
     <br>
     <br>
 
