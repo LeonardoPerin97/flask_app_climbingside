@@ -120,22 +120,41 @@
     <br>
     <br>
 
+    {% if users_with_grades %}
+        <p>Number of reps: <strong style="font-family: Verdana, sans-serif;">{{n_rep}}</strong> <br>
+        Average proposed grade: <strong style="font-family: Verdana, sans-serif;">{{ display_grade(avg_proposed_grade|int) }}</strong> <br>
+        Score: <strong style="font-family: Verdana, sans-serif;">{{ avg_score|round(2) }}/5</strong>  <span id="star1" class="star-container">★★★★★</span></p> 
+        <script>
+            // Funzione per aggiornare il riempimento delle stelle
+            function updateStarRating(voto) {
+                const percentage = (voto / 5) * 100;
+                const starElement = document.getElementById('star1'); 
+                starElement.style.setProperty('--filled-star-width', `${percentage}%`);
+            }
+            updateStarRating({{ avg_score }});
+        </script>
+    {% else %}
+        <p>No repetitions have been added for this route yet.</p>
+    {% endif %}
+
+    <br>
+    <br>
+    <br>
+
     {% if current_user.is_authenticated %}
     <!-- Check if current_user is already in route.users -->
         {% if current_user in route.users %}
             <p>
-                You have already added a repetition.
-                <br>
                 <!-- Display the user's proposed grade and score -->
                 {% if current_user_repetition %}
-                    Proposed grade: <strong style="font-family: Verdana, sans-serif;">{{ display_grade(current_user_repetition.proposed_grade) }}</strong>,
-                    Score: <strong style="font-family: Verdana, sans-serif;">{{ current_user_repetition.score }}/5</strong>,
-                    Date: <strong style="font-family: Verdana, sans-serif;">{{ current_user_repetition.date.strftime('%Y-%m-%d') }}</strong>
+                    Your proposed grade: <strong style="font-family: Verdana, sans-serif;">{{ display_grade(current_user_repetition.proposed_grade) }}</strong>,
+                    score: <strong style="font-family: Verdana, sans-serif;">{{ current_user_repetition.score }}/5</strong>,
+                    date: <strong style="font-family: Verdana, sans-serif;">{{ current_user_repetition.date.strftime('%Y-%m-%d') }}</strong>
                 {% endif %}
             </p>
 
             <!-- Edit Repetition Button (shows the edit form) -->
-             <button id="edit-form-btn">Edit Repetition</button>
+             <button id="edit-form-btn">Edit</button>
 
             <!-- The Edit Form (initially hidden) -->
              <div id="edit-repetition-form" style="display: none; margin-top: 20px;">
@@ -364,23 +383,6 @@
     
     {% if users_with_grades %}
 
-        <p>Number of reps: <strong style="font-family: Verdana, sans-serif;">{{n_rep}}</strong> </p>
-        <p>Average score: <strong style="font-family: Verdana, sans-serif;">{{ avg_score|round(2) }}/5</strong>  <span id="star1" class="star-container">★★★★★</span></p> 
-        <script>
-            // Funzione per aggiornare il riempimento delle stelle
-            function updateStarRating(voto) {
-                const percentage = (voto / 5) * 100;
-                const starElement = document.getElementById('star1'); 
-                starElement.style.setProperty('--filled-star-width', `${percentage}%`);
-            }
-            updateStarRating({{ avg_score }});
-        </script>
-        <p>Average proposed grade: <strong style="font-family: Verdana, sans-serif;">{{ display_grade(avg_proposed_grade|int) }}</strong></p>
-
-
-
-
-
         <!-- Histogram -->
         <!-- <p><strong>Histogram:</strong></p> -->
         <br>
@@ -416,9 +418,6 @@
             </tbody>
         </table>
 
-
-    {% else %}
-        <p>No repetitions have been added for this route yet.</p>
     {% endif %}
 
 
