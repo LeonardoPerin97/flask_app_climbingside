@@ -683,6 +683,11 @@
             document.getElementById('edit-form-btn').style.display = 'inline-block'; // Mostra il bottone Edit
             document.getElementById('remove-rep-btn').style.display = 'inline-block';
         });
+        document.getElementById('cancel-btn').addEventListener('click', function() {
+            // Nascondi il form e riporta il pulsante "Add Repetition"
+            document.getElementById('repetition-form').style.display = 'none';
+            document.getElementById('show-form-btn').style.display = 'inline-block';
+        });
         
     </script>
 
