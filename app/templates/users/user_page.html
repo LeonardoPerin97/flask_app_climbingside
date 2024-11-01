@@ -94,28 +94,7 @@
 
     <h1 style="font-family: Verdana, sans-serif;">{{ user.username }}</h1>
 
-    <!--
-    {% if current_user.is_authenticated and user.id == current_user.id %}
-        <button id="edit-name-btn">Edit</button>
-        <form id="edit-name-form" action="{{ url_for('users.update_username', user_id=current_user.id) }}" method="POST" style="display: none;">
-            <input type="text" id="new-username" name="new_username" value="{{ user.username }}">
-            <button type="submit">Save</button>
-            <button type="button" id="cancel-edit-btn" style="margin-left: 5px;">Cancel</button>
-        </form>
-    {% endif %}
-    <script>
-        document.getElementById('edit-name-btn').addEventListener('click', function() {
-            document.getElementById('edit-name-form').style.display = 'inline';
-            document.getElementById('edit-name-btn').style.display = 'none';
-        });
-        // Nasconde il form di modifica e mostra di nuovo il bottone "Edit" e il nome dell'utente
-        document.getElementById('cancel-edit-btn').addEventListener('click', function() {
-            document.getElementById('edit-name-form').style.display = 'none';
-            document.getElementById('edit-name-btn').style.display = 'inline';
-            //document.getElementById('username-display').style.display = 'inline'; // Mostra di nuovo il nome
-        });
-    </script>
-    -->
+   
 
     <br>
     <canvas id="grade-histogram"></canvas> 
@@ -231,8 +210,8 @@
                 datasets: [{
                     label: 'Number of Routes',
                     data: frequencies,  // Y-axis data (frequencies)
-                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(0, 150, 199, 0.6)',
+                    borderColor: 'rgba(0, 150, 199, 1)',
                     borderWidth: 1
                 }]
             },
@@ -279,6 +258,10 @@
     </script>
 
     
+
+     <!--
+    aggiungere Edit Profile
+    -->
 
 
     <br>
