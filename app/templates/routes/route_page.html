@@ -573,7 +573,7 @@
             <button id="show-form-btn">Add Repetition</button>
 
             <!-- The Form (initially hidden) -->
-            <div id="repetition-form">
+            <div id="repetition-form" data-route-grade="{{route.grade}}">
                 <form id="grade-form" method="POST">
                     <input type="hidden" name="action" value="add">  <!-- Set action to 'add' --> 
                 
@@ -817,7 +817,7 @@
                     label: 'Number of Users',
                     data: frequencies,  // Y-axis data (frequencies)
                     backgroundColor: 'rgba(0, 150, 199, 0.6)',
-                    borderColor: 'rgba(0, 150, 199, 0.6)',
+                    borderColor: 'rgba(0, 150, 199, 0.8)',
                     borderWidth: 1
                 }]
             },
