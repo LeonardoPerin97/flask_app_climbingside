@@ -414,6 +414,7 @@
         <p>Number of reps: <strong style="font-family: Verdana, sans-serif;">{{n_rep}}</strong> <br>
         Average proposed grade: <strong style="font-family: Verdana, sans-serif;">{{ display_grade(avg_proposed_grade|int) }}</strong> <br>
         Score: <strong style="font-family: Verdana, sans-serif;">{{ avg_score|round(2) }}/5</strong>  <span id="star1" class="star-container">★★★★★</span></p> 
+        
         <script>
             // Funzione per aggiornare il riempimento delle stelle
             function updateStarRating(voto) {
@@ -451,6 +452,7 @@
 
             <!-- Contenitore dei pulsanti per mantenere Edit e Remove sulla stessa riga -->
             <div class="button-group">
+                
                 <!-- Edit Repetition Button (shows the edit form) -->
                 <button id="edit-form-btn">Edit</button>
 
@@ -461,7 +463,7 @@
 
 
                 <!-- The Edit Form (initially hidden) -->
-                <div id="edit-repetition-form" style="display: none; margin-top: 20px;">
+                <div id="edit-repetition-form" style="display: none; margin-top: 20px;" data-route-grade="{{ display_grade(current_user_repetition.proposed_grade) }}" data-route-score="{{ current_user_repetition.score }}" data-route-date="{{ current_user_repetition.date.strftime('%Y-%m-%d') }}">
                 <form id="edit-grade-form" method="POST">
                     <input type="hidden" name="action" value="edit">  <!-- Set action to 'edit' -->
 
@@ -531,6 +533,36 @@
                     <button type="button" id="cancel-edit-btn">Cancel</button> 
                 </form>
                 </div>
+
+                <script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                        // route.grade 
+                        const routeGradeText = document.getElementById("edit-repetition-form").getAttribute("data-route-grade");
+                        const [baseGradeText, decimalPart] = routeGradeText.split(".");
+                        const baseGradeSelect = document.getElementById("edit_base_grade");
+                        // Cerca l'opzione con il testo corrispondente a route.grade e selezionala
+                        for (let option of baseGradeSelect.options) {
+                            if (option.text === baseGradeText) {
+                                option.selected = true;
+                                break;
+                            }
+                        }
+                        // Imposta il valore del campo decimal_part con la parte decimale
+                        const decimalPartSelect = document.getElementById("edit_decimal_part");
+                        decimalPartSelect.value = decimalPart || "0";  // Imposta .0 come default se non esiste una parte decimale
+    
+                        //route.score
+                        const routeScore = document.getElementById("edit-repetition-form").getAttribute("data-route-score");
+                        const scoreSelect = document.getElementById("edit_score");
+                        scoreSelect.value = routeScore || "3";
+
+                        //route.date
+                        const dateString = document.getElementById("edit-repetition-form").getAttribute("data-route-date");                        
+                        document.getElementById("edit_date").value = dateString;
+                    });
+                </script>
+
+                
             </div>
 
             
@@ -610,6 +642,31 @@
                     <button type="button" id="cancel-btn">Cancel</button>
                 </form>
             </div>
+
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    // Recupera il valore di route.grade come testo
+                    const routeGradeText = document.getElementById("repetition-form").getAttribute("data-route-grade");
+                    // Seleziona il menu a discesa base_grade
+                    const baseGradeSelect = document.getElementById("base_grade");
+                    // Cerca l'opzione con il testo corrispondente a route.grade e selezionala
+                    for (let option of baseGradeSelect.options) {
+                        if (option.text === routeGradeText) {
+                            option.selected = true;
+                            break;
+                        }
+                    }
+
+                    // Imposta il campo data alla data corrente
+                    const today = new Date();
+                    const year = today.getFullYear();
+                    const month = String(today.getMonth() + 1).padStart(2, '0'); // Mese con due cifre
+                    const day = String(today.getDate()).padStart(2, '0');        // Giorno con due cifre
+                    // Formatta la data come YYYY-MM-DD e impostala nel campo
+                    const todayString = `${year}-${month}-${day}`;
+                    document.getElementById("date").value = todayString;
+                });
+            </script>
 
         {% endif %}
 
@@ -759,8 +816,8 @@
                 datasets: [{
                     label: 'Number of Users',
                     data: frequencies,  // Y-axis data (frequencies)
-                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(0, 150, 199, 0.6)',
+                    borderColor: 'rgba(0, 150, 199, 0.6)',
                     borderWidth: 1
                 }]
             },
