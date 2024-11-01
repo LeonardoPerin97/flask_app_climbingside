@@ -42,6 +42,289 @@
         li {
             margin-bottom: 15px; /* 15px space between each list item */
         }
+
+
+
+
+        /* Stili generali per il form */
+        #repetition-form {
+            display: none; /* Nasconde il form inizialmente */
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            margin: 20px auto;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Stile per il pulsante "Add Repetition" */
+        #show-form-btn {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        #show-form-btn:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        /* Stile degli input e dei textarea */
+        #repetition-form input[type="number"],
+        #repetition-form input[type="date"],
+        #repetition-form select,
+        #repetition-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        /* Stile per il pulsante di invio */
+        #repetition-form button[type="submit"] {
+            background-color: #333;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+
+        #repetition-form button[type="submit"]:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        /* Effetto di focus sugli input */
+        #repetition-form input[type="number"]:focus,
+        #repetition-form input[type="date"]:focus,
+        #repetition-form select:focus,
+        #repetition-form textarea:focus {
+            border-color: #4CAF50;
+            outline: none;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+        }
+        #cancel-btn {
+            background-color: #333;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        
+        #cancel-btn:hover {
+            background-color: #ccc;
+            color: black;
+        }
+
+
+
+
+
+        /* STYLE FOR THE FORMS AND BUTTONS */
+
+
+        /* Stili generali per il form ADD REPETITION */
+        #repetition-form {
+            display: none; /* Nasconde il form inizialmente */
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            margin: 20px auto;
+            font-family: Arial, sans-serif;
+        }
+        /* Stile per il pulsante "Add Repetition" */
+        #show-form-btn {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        #show-form-btn:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        /* Stile degli input*/
+        #repetition-form input[type="number"],
+        #repetition-form input[type="date"],
+        #repetition-form select /*,
+        #repetition-form textarea */ {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        /* Stile per il pulsante di invio */
+        #repetition-form button[type="submit"] {
+            background-color: #333;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+        #repetition-form button[type="submit"]:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        /* Effetto di focus sugli input */
+        #repetition-form input[type="number"]:focus,
+        #repetition-form input[type="date"]:focus,
+        #repetition-form select:focus /*,
+        #repetition-form textarea:focus */ {
+            border-color: #4CAF50;
+            outline: none;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+        }
+        #cancel-btn {
+            background-color: #333;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        #cancel-btn:hover {
+            background-color: #ccc;
+            color: black;
+        }
+
+
+        /* Stili generali per il form EDIT */
+        #edit-repetition-form {
+            display: none; /* Nasconde il form inizialmente */
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            margin: 20px auto;
+            font-family: Arial, sans-serif;
+        }
+        /* Stile per il pulsante "Edit Repetition" */
+        #edit-form-btn {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        #edit-form-btn:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        /* Stile degli input */
+        #edit-repetition-form input[type="number"],
+        #edit-repetition-form input[type="date"],
+        #edit-repetition-form select /*,
+        #edit-repetition-form textarea*/ {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px; 
+        }
+        /* Stile per il pulsante di invio */
+        #edit-repetition-form button[type="submit"] {
+            background-color: #333;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+        #edit-repetition-form button[type="submit"]:hover {
+            background-color: #ccc;
+            color: black;
+        }
+        /* Effetto di focus sugli input */
+        #edit-repetition-form input[type="number"]:focus,
+        #edit-repetition-form input[type="date"]:focus,
+        #edit-repetition-form select:focus /*,
+        #edit-repetition-form textarea:focus */ {
+            border-color: #4CAF50;
+            outline: none;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+        }
+        #cancel-edit-btn {
+            background-color: #333;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        #cancel-edit-btn:hover {
+            background-color: #ccc;
+            color: black;
+        }
+
+        #remove-rep-btn {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        #remove-rep-btn:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .button-group {
+            display: flex;
+            align-items: center;
+            position: relative; /* Posiziona il form Edit sopra i pulsanti */
+            gap: 10px; 
+        }
     </style>
 
 
@@ -58,12 +341,14 @@
 
     
     
+
     <script>
         function confirmLogout() {
             return confirm('Do you want to logout?');
         }
     </script>
     
+
     <!-- Barra di navigazione -->
     {% if current_user.is_authenticated %}
         <div class="navbar" id="myNavbar">
@@ -89,6 +374,7 @@
         </div>
     {% endif %}
 
+
     <script>
     function toggleMenu() {
         var navbar = document.getElementById("myNavbar");
@@ -107,6 +393,8 @@
 
 
 
+
+
     <div class="content">
 
     <br>
@@ -120,7 +408,9 @@
     <br>
     <br>
 
+
     {% if users_with_grades %}
+
         <p>Number of reps: <strong style="font-family: Verdana, sans-serif;">{{n_rep}}</strong> <br>
         Average proposed grade: <strong style="font-family: Verdana, sans-serif;">{{ display_grade(avg_proposed_grade|int) }}</strong> <br>
         Score: <strong style="font-family: Verdana, sans-serif;">{{ avg_score|round(2) }}/5</strong>  <span id="star1" class="star-container">★★★★★</span></p> 
@@ -133,17 +423,22 @@
             }
             updateStarRating({{ avg_score }});
         </script>
+
     {% else %}
+
         <p>No repetitions have been added for this route yet.</p>
+
     {% endif %}
 
     <br>
     <br>
     <br>
 
+
     {% if current_user.is_authenticated %}
     <!-- Check if current_user is already in route.users -->
         {% if current_user in route.users %}
+
             <p>
                 <!-- Display the user's proposed grade and score -->
                 {% if current_user_repetition %}
@@ -153,86 +448,94 @@
                 {% endif %}
             </p>
 
-            <!-- Edit Repetition Button (shows the edit form) -->
-             <button id="edit-form-btn">Edit</button>
 
-            <!-- The Edit Form (initially hidden) -->
-             <div id="edit-repetition-form" style="display: none; margin-top: 20px;">
-              <form id="edit-grade-form" method="POST">
-                <input type="hidden" name="action" value="edit">  <!-- Set action to 'edit' -->
+            <!-- Contenitore dei pulsanti per mantenere Edit e Remove sulla stessa riga -->
+            <div class="button-group">
+                <!-- Edit Repetition Button (shows the edit form) -->
+                <button id="edit-form-btn">Edit</button>
 
-                <label for="edit_base_grade">Proposed grade:</label>
-                <select id="edit_base_grade" name="base_grade" required>
-                    <!-- Same options as the add form -->
-                    <option value="0">4a</option>
-                    <option value="10">4a+</option>
-                    <option value="20">4b</option>
-                    <option value="30">4b+</option>
-                    <option value="40">4c</option>
-                    <option value="50">4c+</option>
-                    <option value="60">5a</option>
-                    <option value="70">5a+</option>
-                    <option value="80">5b</option>
-                    <option value="90">5b+</option>
-                    <option value="100">5c</option>
-                    <option value="110">5c+</option>
-                    <option value="120">6a</option>
-                    <option value="130">6a+</option>
-                    <option value="140">6b</option>
-                    <option value="150">6b+</option>
-                    <option value="160">6c</option>
-                    <option value="170">6c+</option>
-                    <option value="180">7a</option>
-                    <option value="190">7a+</option>
-                    <option value="200">7b</option>
-                    <option value="210">7b+</option>
-                    <option value="220">7c</option>
-                    <option value="230">7c+</option>
-                    <option value="240">8a</option>
-                    <option value="250">8a+</option>
-                    <option value="260">8b</option>
-                    <option value="270">8b+</option>
-                    <option value="280">8c</option>
-                    <option value="290">8c+</option>
-                    <option value="300">9a</option>
-                    <option value="310">9a+</option>
-                    <option value="320">9b</option>
-                    <option value="330">9b+</option>
-                    <option value="340">9c</option>
-                </select>
+                <!--  Remove Repetition Button with confirmation --> 
+                <form method="POST" action="{{ url_for('routes.remove_route_rep', route_id=route.id) }}" style="display:inline;" onsubmit="return confirmDeletion();">
+                    <button type="submit" id="remove-rep-btn">Remove</button>
+                </form> 
 
-                <label for="edit_decimal_part"> </label>
-                <select id="edit_decimal_part" name="decimal_part" required>
-                    <!-- Same options as the add form -->
-                    <option value="0">.0</option>
-                    <option value="1">.1</option>
-                    <option value="2">.2</option>
-                    <option value="3">.3</option>
-                    <option value="4">.4</option>
-                    <option value="5">.5</option>
-                    <option value="6">.6</option>
-                    <option value="7">.7</option>
-                    <option value="8">.8</option>
-                    <option value="9">.9</option>
-                </select>
 
-                <label for="edit_score">Rate this route (1-5):</label>
-                <input type="number" id="edit_score" name="score" min="1" max="5" required>
+                <!-- The Edit Form (initially hidden) -->
+                <div id="edit-repetition-form" style="display: none; margin-top: 20px;">
+                <form id="edit-grade-form" method="POST">
+                    <input type="hidden" name="action" value="edit">  <!-- Set action to 'edit' -->
 
-                <!-- Add the date input field -->
-                <label for="edit_repetition_date">Date:</label>
-                <input type="date" id="edit_date" name="date" required>
+                    <label for="edit_base_grade">Proposed grade:</label>
+                    <select id="edit_base_grade" name="base_grade" required>
+                        <!-- Same options as the add form -->
+                        <option value="0">4a</option>
+                        <option value="10">4a+</option>
+                        <option value="20">4b</option>
+                        <option value="30">4b+</option>
+                        <option value="40">4c</option>
+                        <option value="50">4c+</option>
+                        <option value="60">5a</option>
+                        <option value="70">5a+</option>
+                        <option value="80">5b</option>
+                        <option value="90">5b+</option>
+                        <option value="100">5c</option>
+                        <option value="110">5c+</option>
+                        <option value="120">6a</option>
+                        <option value="130">6a+</option>
+                        <option value="140">6b</option>
+                        <option value="150">6b+</option>
+                        <option value="160">6c</option>
+                        <option value="170">6c+</option>
+                        <option value="180">7a</option>
+                        <option value="190">7a+</option>
+                        <option value="200">7b</option>
+                        <option value="210">7b+</option>
+                        <option value="220">7c</option>
+                        <option value="230">7c+</option>
+                        <option value="240">8a</option>
+                        <option value="250">8a+</option>
+                        <option value="260">8b</option>
+                        <option value="270">8b+</option>
+                        <option value="280">8c</option>
+                        <option value="290">8c+</option>
+                        <option value="300">9a</option>
+                        <option value="310">9a+</option>
+                        <option value="320">9b</option>
+                        <option value="330">9b+</option>
+                        <option value="340">9c</option>
+                    </select>
 
-                <button type="submit">Update</button>
-                <button type="button" id="cancel-edit-btn">Cancel</button> 
-             </form>
+                    <label for="edit_decimal_part"> </label>
+                    <select id="edit_decimal_part" name="decimal_part" required>
+                        <!-- Same options as the add form -->
+                        <option value="0">.0</option>
+                        <option value="1">.1</option>
+                        <option value="2">.2</option>
+                        <option value="3">.3</option>
+                        <option value="4">.4</option>
+                        <option value="5">.5</option>
+                        <option value="6">.6</option>
+                        <option value="7">.7</option>
+                        <option value="8">.8</option>
+                        <option value="9">.9</option>
+                    </select>
+
+                    <label for="edit_score">Score (1-5):</label>
+                    <input type="number" id="edit_score" name="score" min="1" max="5" required>
+
+                    <!-- Add the date input field -->
+                    <label for="edit_repetition_date">Date:</label>
+                    <input type="date" id="edit_date" name="date" required>
+
+                    <button type="submit">Update</button>
+                    <button type="button" id="cancel-edit-btn">Cancel</button> 
+                </form>
+                </div>
             </div>
 
-            <!-- Add a form with a remove button and confirmation --> 
-            <form method="POST" action="{{ url_for('routes.remove_route_rep', route_id=route.id) }}" style="display:inline;" onsubmit="return confirmDeletion();">
-                <button type="submit">Remove</button>
-            </form> 
+            
         {% else %}
+
 
             <!-- Add Repetition Button (this shows the form) -->
             <button id="show-form-btn">Add Repetition</button>
@@ -288,7 +591,7 @@
                         <option value="2">.2</option>
                         <option value="3">.3</option>
                         <option value="4">.4</option>
-                        <option value="5">.5</option>
+                        <option value="5" selected>.5</option>
                         <option value="6">.6</option>
                         <option value="7">.7</option>
                         <option value="8">.8</option>
@@ -296,21 +599,27 @@
                     </select>
 
 
-                    <label for="score">Rate this route (1-5):</label>
-                    <input type="number" id="score" name="score" min="1" max="5" required>
+                    <label for="score">Score (1-5):</label>
+                    <input type="number" id="score" name="score" min="1" max="5" value="3" required>
 
                     <!-- Add the date input field -->
                     <label for="repetition_date">Date of Repetition:</label>
                     <input type="date" id="date" name="date" required>
             
                     <button type="submit">Submit</button>
+                    <button type="button" id="cancel-btn">Cancel</button>
                 </form>
             </div>
+
         {% endif %}
+
     {% else %}
+
         <br>
         <p>[You need to <a href="{{ url_for('users.login') }}">login</a> to add a repetition of this route]</p>
+
     {% endif %}
+
     
     <script>
         document.getElementById('show-form-btn').addEventListener('click', function() {
@@ -347,6 +656,7 @@
     <script> 
         document.getElementById('edit-form-btn').addEventListener('click', function() {
             document.getElementById('edit-repetition-form').style.display = 'block';
+            document.getElementById('remove-rep-btn').style.display = 'none';
             this.style.display = 'none'; // Hide the button
         });
         
@@ -370,7 +680,8 @@
         // Funzionalità per il bottone Annulla
         document.getElementById('cancel-edit-btn').addEventListener('click', function() {
             document.getElementById('edit-repetition-form').style.display = 'none'; // Nasconde il form
-            document.getElementById('edit-form-btn').style.display = 'block'; // Mostra il bottone Edit
+            document.getElementById('edit-form-btn').style.display = 'inline-block'; // Mostra il bottone Edit
+            document.getElementById('remove-rep-btn').style.display = 'inline-block';
         });
         
     </script>
