@@ -82,6 +82,8 @@ def create_app():
     @login_required
     def download_db():
         try:
+            if current_user.id != 1:
+                abort(403)  # Accesso negato se l'user_id non è 1
             # Controlla se il file esiste
             if os.path.exists(DB_FILE_PATH):
                 # Utilizza send_file per inviare il file al client
