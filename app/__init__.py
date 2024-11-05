@@ -74,6 +74,10 @@ def create_app():
     from app.routes import routes
     app.register_blueprint(routes)
 
+    from app.admin import admin_db
+    app.register_blueprint(admin_db)
+
+
 
 
     # Download database
