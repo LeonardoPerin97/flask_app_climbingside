@@ -5,11 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
     <title>Delete Routes</title>
-    <script>
-        function confirmDeletion(routeName) {
-            return confirm('Are you sure you want to delete "' + routeName + '"?');
-        }
-    </script>
 </head>
 <body>
     <h2>List of Routes</h2>
@@ -20,8 +15,8 @@
                 <li>
                     <b>{{ route.name }}</b> ({{ route.grade }})  wall {{route.wall.name}}
                     <!-- Add a form with a remove button and confirmation -->
-                    <form method="POST" action="{{ url_for('routes.delete_route', route_id=route.id) }}" style="display:inline;" onsubmit="return confirmDeletion('{{ route.name }}');">
-                        <button type="submit">Remove</button>
+                    <form method="POST" action="{{ url_for('routes.delete_route', route_id=route.id) }}" style="display:inline;">
+                        <button type="submit" onclick="return confirm('Are you sure you want to delete the route {{ route.name }}?');">Remove</button>
                     </form>
                 </li>
             {% endfor %}
