@@ -124,6 +124,90 @@ def update_username(user_id):
     return redirect(url_for('users.user_page', user_id=user_id))
 
 
+#####################################################################
+@users.route('/update_username/<int:user_id>', methods=['POST'])
+@login_required
+def update_username(user_id):
+    if current_user.id != user_id:
+        flash('You are not authorized to edit this profile.', 'danger')
+        return {'status': 'error', 'message': 'You are not authorized to edit this profile.'}, 403
+    
+    new_username = request.form.get('new_username')
+    if new_username:
+        current_user.username = new_username
+        db.session.commit()
+        return {'status': 'success', 'message': 'Username updated successfully!'}, 200
+    else:
+        return {'status': 'error', 'message': 'New username cannot be empty.'}, 400
+
+    
+
+
+@users.route('/update_password/<int:user_id>', methods=['POST'])
+@login_required
+def update_password(user_id):
+    if current_user.id != user_id:
+        return {'status': 'error', 'message': 'You are not authorized to edit this profile.'}, 403
+
+    current_password = request.form.get('current_password')
+    new_password = request.form.get('new_password')
+
+    # Verifica della password corrente
+    if  current_user.password != current_password:
+        return {'status': 'error', 'message': 'Current password is incorrect.'}, 400
+
+    # Verifica che la nuova password non sia vuota
+    if not new_password:
+        return {'status': 'error', 'message': 'New password cannot be empty.'}, 400
+
+    # Aggiornamento della password
+    current_user.password = new_password
+    db.session.commit()
+
+    return {'status': 'success', 'message': 'Password updated successfully!'}, 200
+
+
+@users.route('/edit_profile/<int:user_id>', methods=['GET', 'POST'])
+@login_required
+def edit_profile(user_id):
+
+
+    if current_user.id != user_id:
+            flash('You are not authorized to edit this profile.', 'danger')
+            return redirect(url_for('users.user_page', user_id=user_id))
+        
+    new_username = request.form.get('new_username')
+    if new_username:
+        current_user.username = new_username
+        db.session.commit()
+        flash('Username updated successfully!', 'success')
+    else:
+        flash('Username cannot be empty.', 'danger')
+
+
+    current_password = request.form.get('current_password')
+    new_password = request.form.get('new_password')
+
+    # Verifica della password corrente
+    if  current_user.password != current_password:
+        flash('Wrong password.', 'danger')
+
+    # Verifica che la nuova password non sia vuota
+    elif not new_password:
+        flash('New password is empty.', 'danger')
+
+    # Aggiornamento della password
+    else:
+        current_user.password = new_password
+        db.session.commit()
+        flash('Password updated successfully!', 'success')
+
+    return render_template('users/edit_profile.html', user_id=user_id)
+#####################################################################
+
+
+
+
 
 
 
