@@ -116,7 +116,7 @@
                 <!-- <a href="{{ url_for('users.user_page', user_id=user_row[0]) }}" class="{% if current_username and user_row[1] == current_username %}link7{% else %}link6{% endif %}"> {{ user_row[1] }} </a> -->
                 <a href="{{ url_for('users.user_page', user_id=user_row[0]) }}" class="link6"> {{ user_row[1] }} </a>
                 <span> {{ user_row[2] }} </span>
-                <span> {{ user_row[3] or 'N/A' }} </span>
+                <span style="color: {{ 'black' if user_row[3] else '#ccc' }}"> {{ user_row[3] or 'N/A' }} </span>
             </div>
             {% endfor %}
         </div>
