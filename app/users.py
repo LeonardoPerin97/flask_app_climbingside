@@ -106,22 +106,7 @@ def user_page(user_id):
     return render_template('users/user_page.html', user=user, routes=routes, sort_by=sort_by, full_grade_frequencies=full_grade_frequencies, nreps=nreps)
 
 
-@users.route('/update_username/<int:user_id>', methods=['POST'])
-@login_required
-def update_username(user_id):
-    if current_user.id != user_id:
-        flash('You are not authorized to edit this profile.', 'danger')
-        return redirect(url_for('users.user_page', user_id=user_id))
-    
-    new_username = request.form.get('new_username')
-    if new_username:
-        current_user.username = new_username
-        db.session.commit()
-        flash('Username updated successfully!', 'success')
-    else:
-        flash('Username cannot be empty.', 'danger')
 
-    return redirect(url_for('users.user_page', user_id=user_id))
 
 
 #####################################################################
