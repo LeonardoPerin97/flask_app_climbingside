@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
+
+    <!-- Link to the CSS file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style> 
+        /* Chart container */
+        #grade-histogram {
+            width: 600px;
+            height: 400px;
+        } 
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+        li {
+            margin-bottom: 15px; /* 15px space between each list item */
+        }
+
+
+
+
+        /* Stili generali per il form EDIT PROFILE */
+        #edit-name-form {
+            display: none; /* Nasconde il form inizialmente */
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            margin: 20px auto;
+            font-family: Arial, sans-serif;
+        }
+        #edit-password-form {
+            display: none; /* Nasconde il form inizialmente */
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            margin: 20px auto;
+            font-family: Arial, sans-serif;
+        }
+        
+
+        /* Stile per il pulsante "Add Repetition" */
+        #edit-name-btn {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        #edit-name-btn:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        /* Stile degli input e dei textarea */
+        #edit-name-form input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        /* Stile per il pulsante di invio */
+        #edit-name-form button[type="button"] {
+            background-color: #333;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+
+        #edit-name-form button[type="button"]:hover {
+            background-color: #ccc;
+            color: black;
+        }
+
+        /* Effetto di focus sugli input */
+        #edit-repetition-form input[type="text"]:focus {
+            border-color: #4CAF50;
+            outline: none;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+        }
+
+
+
+
+        #submit-password-btn {
+            background-color: #333;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+
+        #submit-password-btn:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        #edit-password-form input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+
+    </style>
+
+</head>
+<body>
+
+    
+    <script>
+        function confirmLogout() {
+            return confirm('Do you want to logout?');
+        }
+    </script>
+    
+    <!-- Barra di navigazione -->
+    {% if current_user.is_authenticated %}
+        <div class="navbar" id="myNavbar">
+            <span class="navbar-right"><b>climbing side climbook</b></span>
+            <a href="{{ url_for('home.homepage') }}">Home</a>
+            <a href="{{ url_for('users.users_list') }}">Users</a>
+            <a href="{{ url_for('routes.walls_list') }}">Walls</a>
+            <a href="{{ url_for('routes.routes_list') }}">Routes</a>
+            <a href="{{ url_for('users.user_page', user_id=current_user.id) }}">Profile</a> 
+            <a href="{{ url_for('users.logout') }}" onclick="return confirmLogout()" >Logout</a>
+            <a href="javascript:void(0);" class="icon" onclick="toggleMenu()">&#9776;</a> <!-- Icona hamburger -->
+        </div>
+    {% else %}
+        <div class="navbar" id="myNavbar">
+            <span class="navbar-right"><b>climbing side climbook</b></span>
+            <a href="{{ url_for('home.homepage') }}">Home</a>
+            <a href="{{ url_for('users.users_list') }}">Users</a>
+            <a href="{{ url_for('routes.walls_list') }}">Walls</a>
+            <a href="{{ url_for('routes.routes_list') }}">Routes</a>
+            <a href="{{ url_for('users.login') }}" >Login</a> 
+            <a href="{{ url_for('users.register') }}" >Register</a> 
+            <a href="javascript:void(0);" class="icon" onclick="toggleMenu()">&#9776;</a> <!-- Icona hamburger -->
+        </div>
+    {% endif %}
+
+    <script>
+    function toggleMenu() {
+        var navbar = document.getElementById("myNavbar");
+        var icon = document.querySelector(".navbar a.icon");
+    
+        if (navbar.className === "navbar") {
+            navbar.className += " responsive";
+            icon.innerHTML = "&#10005;"; // Cambia l'icona in una X (simbolo Unicode X)
+        } else {
+            navbar.className = "navbar";
+            icon.innerHTML = "&#9776;"; // Cambia l'icona di nuovo nell'hamburger (simbolo Unicode hamburger)
+        }
+    }
+    </script>
+
+
+
+
+    <div class="content">
+
+    <br>
+    <br>
+
+    <h2> Edit Profile</h2>
+
+    <br>
+
+    <div id="edit-profile">
+    <h3 style="font-family: Verdana, sans-serif; text-align: center;"> Username </h3>
+    <form id="edit-name-form" action="{{ url_for('users.update_username', user_id=current_user.id) }}" method="POST" style="display: block;">
+        <input type="text" id="new-username" name="new_username" value="{{ current_user.username }}">
+        <button type="button" id="submit-username-btn">Update</button>
+        <span id="username-error" class="text-danger" style="display: none;"></span>
+    </form>
+    <br>
+    <br>
+    <h3 style="font-family: Verdana, sans-serif; text-align: center;"> Password </h3>
+    <form id="edit-password-form" method="POST" style="display: block;">
+        <input type="password" id="current-password" name="current_password" placeholder="Current password" required>
+        <input type="password" id="new-password" name="new_password" placeholder="New password" required>
+        <button type="button" id="submit-password-btn">Save</button>
+        <br>
+        <span id="password-error" class="text-danger" style="display: none;"></span>
+    </form>
+    </div>
+
+
+
+    <script>
+        // Handle username update form submission
+        document.getElementById('submit-username-btn').addEventListener('click', function() {
+            const newUsername = document.getElementById('new-username').value;
+            const errorSpan = document.getElementById('username-error');
+        
+            fetch('{{ url_for('users.update_username', user_id=current_user.id) }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    'new_username': newUsername
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'error') {
+                    // Show error message
+                    errorSpan.textContent = data.message;
+                    errorSpan.style.display = 'block';
+                } else {
+                    // Hide error message and show success message
+                    errorSpan.style.display = 'none';
+                    alert(data.message);
+                    location.reload();
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                errorSpan.textContent = 'An error occurred. Please try again.';
+                errorSpan.style.display = 'block';
+            });
+        });
+
+    // Handle password update form submission
+        document.getElementById('submit-password-btn').addEventListener('click', function() {
+            const currentPassword = document.getElementById('current-password').value;
+            const newPassword = document.getElementById('new-password').value;
+            const errorSpan = document.getElementById('password-error');
+        
+            fetch('{{ url_for('users.update_password', user_id=current_user.id) }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    'current_password': currentPassword,
+                    'new_password': newPassword
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'error') {
+                    // Show error message
+                    errorSpan.textContent = data.message;
+                    errorSpan.style.display = 'block';
+                } else {
+                    // Hide error message and show success message
+                    errorSpan.style.display = 'none';
+                    alert(data.message);
+                    // Hide the password form after success
+                    //document.getElementById('edit-password-form').style.display = 'none';
+                    location.reload();
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                errorSpan.textContent = 'An error occurred. Please try again.';
+                errorSpan.style.display = 'block';
+            });
+        });
+    </script>
+
+  
+    
+
+   
+    <br>
+    <br>
+
+
+
+
+
+
+
+
+    <br>
+    <br>
+    <a href="{{ url_for('users.user_page', user_id=user_id) }}" style="background-color: #333; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; transition: background-color 0.3s; text-decoration: none;",
+    onmouseover="this.style.backgroundColor='#ddd'; this.style.color='black';", onmouseout="this.style.backgroundColor='#333'; this.style.color='white';">Profile</a>
+    <br>
+    <br>
+    <br>
+    <br>
+
+
+
+
+
+
+
+
+
+    
+
+    </div>
+
+
+
+
+
+</body>
+</html>
