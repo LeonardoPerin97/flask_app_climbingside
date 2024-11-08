@@ -130,7 +130,7 @@ def route_page(route_id):
     route = Route.query.get_or_404(route_id)
     # Query to fetch all users, along with their proposed grade and score
     user_data = db.session.execute(
-        user_route.select().where(user_route.c.route_id == route_id).order_by(desc(user_route.c.date))
+        user_route.select().where(user_route.c.route_id == route_id).order_by(desc(user_route.c.date), desc(user_route.c.id))
     ).fetchall()
     # Format the data into a list of dictionaries (or a more complex object if needed)
     users_with_grades = []
