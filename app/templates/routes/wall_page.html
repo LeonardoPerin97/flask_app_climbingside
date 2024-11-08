@@ -127,7 +127,7 @@
                 <div class="row" style = "display: flex; align-items: center; {% if route.done %} background-color: rgba(255, 240, 0, 0.4); {% endif %} "> 
                     <a href="{{ url_for('routes.route_page', route_id=route.id) }}" class="link6" style="overflow-wrap: anywhere; word-break: normal; flex-basis: 30%;"><strong>{{ route.name }} </strong></a>
                     <span style="flex-basis: 5%;"> </span>
-                    <span style="flex-basis: 20%;"> <strong>{{ route.grade }}</strong> <br> {{ route.avg_proposed_grade }} </span>
+                    <span style="flex-basis: 20%;"> <strong>{{ route.grade }}</strong> <br> <normal style="color: {{ '#ccc' if route.avg_proposed_grade=='N.D.' else 'black' }};">{{ route.avg_proposed_grade }}</normal> </span>
                     <!--<span style="flex-basis: 20%;"> {{ route.avg_proposed_grade }} </span> -->
                     <span style="flex-basis: 20%;"> {{ route.repetitions }} </span> 
                     <!-- <span style="flex-basis: 15%;"> {{ route.avg_score | round(2) }}/5 </span> -->
