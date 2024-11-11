@@ -74,7 +74,7 @@ def user_page(user_id):
 
     # Sort the routes based on the selected criteria
     if sort_by == 'grade':
-        routes = Route.query.join(user_route).join(User).filter(User.id == user_id).order_by(desc(Route.grade), desc(user_route.c.id)).all() 
+        routes = Route.query.join(user_route).join(User).filter(User.id == user_id).order_by(desc(Route.grade), desc(user_route.c.date), desc(user_route.c.id)).all() 
     elif sort_by == 'date':
         routes = Route.query.join(user_route).join(User).filter(User.id == user_id).order_by(desc(user_route.c.date), desc(user_route.c.id)).all()
     else:
