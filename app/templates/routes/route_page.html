@@ -797,7 +797,7 @@
                         <td>{{ display_grade(entry.proposed_grade) }}</td>
                         <!-- <td>{{ entry.score }}/5</td> --> 
                         <td><span id="{{entry.user.id}}" class="star-container" style="--filled-star-width: {{entry.score *100/5}}%">★★★★★</span></td>
-                        <td>{{ entry.date.strftime('%Y-%m-%d') }}</td>        
+                        <td>{{ entry.date.strftime('%d-%m-%Y') }}</td>        
                     </tr>
                 {% endfor %}
             </tbody>
