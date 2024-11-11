@@ -179,7 +179,7 @@
                     <td>{{ display_grade(route.proposed_grade) }}</td> <!-- Display proposed grade or 'N/A' if none -->
                     <!--<td>{{ route.score }}/5</td> -->
                     <td><span id="{{ route.id}}" class="star-container" style="--filled-star-width: {{route.score *100/5}}%">★★★★★</span> </td> 
-                    <td>{{ route.date.strftime('%Y-%m-%d') }}</td>  <!-- Display the date in the table -->
+                    <td>{{ route.date.strftime('%d-%m-%Y') }}</td>  <!-- Display the date in the table -->
                 </tr>
             {% endfor %}
         </tbody>
