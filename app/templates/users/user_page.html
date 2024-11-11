@@ -162,8 +162,9 @@
             <tr>
                 <th>Route</th>
                 <th>Grade</th>
-                <th>Proposed Grade</th>
-                <th>Score</th>
+                <th>Proposed</th>
+                <!-- <th>Proposed Grade</th>
+                <th>Score</th> -->
                 <th>Date</th>
             </tr>
         </thead>
@@ -176,15 +177,23 @@
                         <a href="{{ url_for('routes.wall_page', wall_id=route.wall_id) }}" class="link6" style="font-weight: normal; font-size: small;"> Wall {{ route.wall.name }} </a>
                     </td>
                     <td><strong>{{ route.grade }}</strong></td>
-                    <td>{{ display_grade(route.proposed_grade) }}</td> <!-- Display proposed grade or 'N/A' if none -->
-                    <!--<td>{{ route.score }}/5</td> -->
-                    <td><span id="{{ route.id}}" class="star-container" style="--filled-star-width: {{route.score *100/5}}%">★★★★★</span> </td> 
-                    <td>{{ route.date.strftime('%d-%m-%Y') }}</td>  <!-- Display the date in the table -->
+                    <td>{{ display_grade(route.proposed_grade) }} <!-- </td>  --> <br>
+                    <!--  <td> --> <span id="{{ route.id}}" class="star-container" style="--filled-star-width: {{route.score *100/5}}%">★★★★★</span> </td> 
+                    <td>{{ route.date.strftime('%d-%m-%Y') }}</td>  
                 </tr>
             {% endfor %}
         </tbody>
     </table>
     </div>
+    <style>
+        /* Apply specific column widths only when the screen width is less than 600px */
+        @media (max-width: 600px) {
+            #route-container table th:nth-child(1) { width: 30%; } /* Route column */
+            #route-container table th:nth-child(2) { width: 15%; } /* Grade column */
+            #route-container table th:nth-child(3) { width: 25%; } /* Proposed column */
+            #route-container table th:nth-child(4) { width: 30%; } /* Date column */
+        }
+    </style>
     {% else %}
         <p> <b style="font-family: Verdana, sans-serif;">{{ user.username }}</b> has not added any routes yet.</p>
     {% endif %}
