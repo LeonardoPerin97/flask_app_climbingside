@@ -456,7 +456,7 @@
                 {% if current_user_repetition %}
                     Your proposed grade: <strong style="font-family: Verdana, sans-serif;">{{ display_grade(current_user_repetition.proposed_grade) }}</strong>,
                     score: <strong style="font-family: Verdana, sans-serif;">{{ current_user_repetition.score }}/5</strong>,
-                    date: <strong style="font-family: Verdana, sans-serif;">{{ current_user_repetition.date.strftime('%Y-%m-%d') }}</strong>
+                    date: <strong style="font-family: Verdana, sans-serif;">{{ current_user_repetition.date.strftime('%d-%m-%Y') }}</strong>
                 {% endif %}
             </p>
 
