@@ -778,7 +778,8 @@
         <br>
 
         <p><strong>Repetitions:</strong></p>
-
+        
+        <div id="reps-container">
         <table style="font-family: Verdana, sans-serif;">
             <thead>
                 <tr>
@@ -802,6 +803,16 @@
                 {% endfor %}
             </tbody>
         </table>
+        </div>
+        <style>
+            /* Apply specific column widths only when the screen width is less than 600px */
+            @media (max-width: 600px) {
+                #reps-container table th:nth-child(1) { width: 30%; } /* User column */
+                #reps-container table th:nth-child(2) { width: 15%; } /* Grade column */
+                #reps-container table th:nth-child(3) { width: 25%; } /* Score column */
+                #reps-container table th:nth-child(4) { width: 30%; } /* Date column */
+            }
+        </style>
 
     {% endif %}
 
