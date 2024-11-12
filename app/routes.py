@@ -22,7 +22,7 @@ routes = Blueprint('routes', __name__)
 @routes.route('/routes')
 def routes_list():
     
-    sort_order = request.args.get('sort', 'default')
+    sort_order = request.args.get('sort', 'asc')
     # Base query for routes, including counting repetitions and calculating average score
     base_query = db.session.query(
         Route,
