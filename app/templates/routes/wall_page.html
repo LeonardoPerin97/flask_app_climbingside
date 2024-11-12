@@ -102,7 +102,7 @@
     <div>
         <label for="sort">Sort by:</label>
         <select id="sort" name="sort" onchange="window.location.href = '?sort=' + this.value;">
-            <option value="default" {% if sort_order == 'default' %}selected{% endif %}>Default Order</option>
+            <option value="default" {% if sort_order == 'default' %}selected{% endif %}>Route id</option>
             <option value="asc" {% if sort_order == 'asc' %}selected{% endif %}>Grade - ascending</option>
             <option value="desc" {% if sort_order == 'desc' %}selected{% endif %}>Grade - descending</option>
             <option value="alph" {% if sort_order == 'alph' %}selected{% endif %}>Alphabetical Order</option>
