@@ -7,11 +7,10 @@
 <body>
     <h1>Admin db page</h1>
 
+    <h2> Admins </h2>
     {% for user in users %}
-        {% if user.id == 1 %}
-            <p>Admin: 
-            <br>
-            Username: {{ user.username }}, ID: {{ user.id }}</p>
+        {% if user.id == 1 or user.id == 2 %}
+            <p>Username: {{ user.username }}, ID: {{ user.id }}</p>
         {% endif %}
     {% endfor %}
 
