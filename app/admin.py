@@ -192,7 +192,7 @@ def delete_wall(wall_id):
 @admin_db.route('/admin_db', methods=['GET', 'POST'])
 @login_required
 def admin_db_page():
-    if not current_user.id == 1:  
+    if not (current_user.id == 1 or current_user.id == 2):  
         flash("Access denied", "danger")
         return redirect(url_for('home'))  # Reindirizza alla home se non è admin
     
