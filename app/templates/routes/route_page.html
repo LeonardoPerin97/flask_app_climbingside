@@ -885,7 +885,7 @@
     <br>
 
     <!-- Solo l'admin (user.id = 1) può inserire l'immagine -->
-    {% if current_user.is_authenticated and current_user.id == 1 and not route.image_file %}
+    {% if current_user.is_authenticated and (current_user.id == 1 or current_user.id == 2) and not route.image_file %}
 
         <button id="add-image-btn">Add Image</button>
 
@@ -914,7 +914,7 @@
             <img src="{{ route.image_file }}" alt="{{ route.name }}" class="img-fluid" style="width: 400px; height: auto;">
         </div>
 
-        {% if current_user.is_authenticated and current_user.id == 1  %}
+        {% if current_user.is_authenticated and (current_user.id == 1 or current_user.id ==2)  %}
         <!-- Form per eliminare l'immagine -->
         <form method="POST" action="{{ url_for('routes.delete_image', route_id=route.id) }}">
             <input type="hidden" name="delete_image" value="true">
