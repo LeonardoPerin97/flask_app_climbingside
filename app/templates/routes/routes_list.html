@@ -233,7 +233,7 @@
     <br>
     <br>
     <br>
-    {% if current_user.is_authenticated and current_user.id == 1  %}
+    {% if current_user.is_authenticated and (current_user.id == 1 or current_user.id == 2)  %}
         <a href="{{ url_for('routes.add_route') }}">Add a New Route</a> <!-- Link to the add_route page -->
         <br>
         <a href="{{ url_for('routes.routes_list_with_delete') }}">Delete a Route</a> <!-- Link to the delete_route page -->
