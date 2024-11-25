@@ -29,6 +29,39 @@
             flex-basis: 20%; /* Larghezza riservata per i vari <span> */
             text-align: left; /* Allinea il testo*/
         }
+
+
+        /* Align input fields */
+        .input-field {
+            /*display: inline-block;*/
+            width: 200px;
+            padding: 5px;
+            margin: 5px 10px 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }        
+
+        /* Adjust form layout */
+        form {
+            /*display: flex;
+            flex-wrap: wrap;*/
+            align-items: center;
+        }
+
+        label {
+            margin-right: 10px;
+            margin-bottom: 5px;
+        }
+
+        select {
+            margin: 5px 10px 5px 0;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
     </style>
 
 
@@ -91,18 +124,41 @@
     <div class="content">
     <h2>Routes</h2>
 
-    <!-- Sorting options -->
+
+
     <div>
-        <label for="sort">Sort by:</label>
-        <select id="sort" name="sort" onchange="window.location.href = '?sort=' + this.value;">
-            <option value="default" {% if sort_order == 'default' %}selected{% endif %}>Default Order</option>
-            <option value="asc" {% if sort_order == 'asc' %}selected{% endif %}>Grade - ascending</option>
-            <option value="desc" {% if sort_order == 'desc' %}selected{% endif %}>Grade - descending</option>
-            <option value="alph" {% if sort_order == 'alph' %}selected{% endif %}>Alphabetical Order</option>
-            <option value="repetitions" {% if sort_order == 'repetitions' %}selected{% endif %}>Number of Repetitions</option>
-            <option value="avg_score" {% if sort_order == 'avg_score' %}selected{% endif %}>Average Score</option>
-        </select>
+        <form method="GET" action="{{ url_for('routes.routes_list') }}" style="margin-bottom: 20px;">
+
+            <label for="sort">Sort by:</label>
+            <!-- <select id="sort" name="sort" onchange="window.location.href = '?sort=' + this.value;">  -->
+            <select id="sort" name="sort" onchange="this.form.submit();"> 
+                <option value="default" {% if sort_order == 'default' %}selected{% endif %}>Default Order</option>
+                <option value="asc" {% if sort_order == 'asc' %}selected{% endif %}>Grade - ascending</option>
+                <option value="desc" {% if sort_order == 'desc' %}selected{% endif %}>Grade - descending</option>
+                <option value="alph" {% if sort_order == 'alph' %}selected{% endif %}>Alphabetical Order</option>
+                <option value="repetitions" {% if sort_order == 'repetitions' %}selected{% endif %}>Number of Repetitions</option>
+                <option value="avg_score" {% if sort_order == 'avg_score' %}selected{% endif %}>Average Score</option>
+            </select>
+
+            <br>
+            <label for="search_name">Search by Name:</label>
+            <input type="text" class="input-field" id="search_name" name="search_name" value="{{ search_name }}" placeholder="Route name">
+            
+            <br>
+            <label for="search_grade">Search by Grade:</label>
+            <input type="text" class="input-field" id="search_grade" name="search_grade" value="{{ search_grade }}" placeholder="Grade">
+
+            <br>
+            <label for="search_grade">Search by Wall:</label>
+            <input type="text" class="input-field" id="search_wall" name="search_wall" value="{{ search_wall }}" placeholder="Wall">
+            
+            <br>
+            <button type="submit" >Search</button>
+            <button type="submit" style="margin-left: 10px;"><a href="{{ url_for('routes.routes_list') }}" style="text-decoration: none; color: black" >Clear</a></button>
+            
+        </form>
     </div>
+
 
     <br>
 
