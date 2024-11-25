@@ -8,23 +8,23 @@ app = create_app()
 with app.app_context():
     db.create_all()
 
-from app.models import Wall
-with app.app_context():
-    # Controlla se i dati iniziali devono essere inseriti
-    if Wall.query.count() == 0:
-        wall_a = Wall(name="A")
-        wall_b = Wall(name="B")
-        wall_c = Wall(name="C")
-        wall_d = Wall(name="D")
-        wall_boulder = Wall(name="Sala Boulder")
-        wall_esterno = Wall(name="Esterno")
-        db.session.add(wall_a)
-        db.session.add(wall_b)
-        db.session.add(wall_c)
-        db.session.add(wall_d)
-        db.session.add(wall_boulder)
-        db.session.add(wall_esterno)
-        db.session.commit()
+#from app.models import Wall
+#with app.app_context():
+#    # Controlla se i dati iniziali devono essere inseriti
+#    if Wall.query.count() == 0:
+#        wall_a = Wall(name="A")
+#        wall_b = Wall(name="B")
+#        wall_c = Wall(name="C")
+#        wall_d = Wall(name="D")
+#        wall_boulder = Wall(name="Sala Boulder")
+#        wall_esterno = Wall(name="Esterno")
+#        db.session.add(wall_a)
+#        db.session.add(wall_b)
+#        db.session.add(wall_c)
+#        db.session.add(wall_d)
+#        db.session.add(wall_boulder)
+#        db.session.add(wall_esterno)
+#        db.session.commit()
 
 
 
