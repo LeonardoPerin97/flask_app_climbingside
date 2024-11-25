@@ -22,7 +22,13 @@ routes = Blueprint('routes', __name__)
 @routes.route('/routes')
 def routes_list():
     
+    # Recupera i parametri di ricerca dalla query string
+    search_name = request.args.get('search_name', '').strip()
+    search_grade = request.args.get('search_grade', '').strip()
+    search_wall = request.args.get('search_wall', '').strip()
+
     sort_order = request.args.get('sort', 'default')
+
     # Base query for routes, including counting repetitions and calculating average score
     base_query = db.session.query(
         Route,
@@ -30,7 +36,17 @@ def routes_list():
         func.coalesce(func.avg(user_route.c.score), 0).label('avg_score'),
         func.coalesce(func.avg(user_route.c.proposed_grade), -1).label('avg_proposed_grade')
     ).outerjoin(user_route, Route.id == user_route.c.route_id) \
+     .join(Wall, Route.wall_id == Wall.id) \
      .group_by(Route.id)
+    
+    # Applica i filtri di ricerca se specificati
+    if search_name:
+        base_query = base_query.filter(Route.name.ilike(f"%{search_name}%"))
+    if search_grade:
+        base_query = base_query.filter(Route.grade == search_grade)
+    if search_wall:
+        base_query = base_query.filter(Wall.name  == search_wall)
+
     # Modify the query based on the selected sort order
     if sort_order == 'asc':
         routes = base_query.order_by(Route.grade).all()
@@ -85,7 +101,7 @@ def routes_list():
     # Ensure all grades in the range have a frequency (fill missing with 0)
     grade_distribution = {grade: grade_frequencies.get(grade, 0) for grade in french_grades}
     
-    return render_template('routes/routes_list.html', routes=routes_list, sort_order=sort_order, grade_distribution=grade_distribution, nroutes=nroutes)
+    return render_template('routes/routes_list.html', routes=routes_list, sort_order=sort_order, grade_distribution=grade_distribution, nroutes=nroutes, search_name=search_name, search_grade=search_grade, search_wall=search_wall)
 
 
 
