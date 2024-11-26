@@ -41,7 +41,11 @@ def routes_list():
     
     # Applica i filtri di ricerca se specificati
     if search_name:
-        base_query = base_query.filter(Route.name.ilike(f"%{search_name}%"))
+        #base_query = base_query.filter(Route.name.ilike(f"%{search_name}%"))
+        base_query = base_query.filter(
+            Route.name.ilike(f"{search_name}%") |
+            Route.name.ilike(f"% {search_name}%")
+            )
     if search_grade:
         base_query = base_query.filter(Route.grade == search_grade)
     if search_wall:
