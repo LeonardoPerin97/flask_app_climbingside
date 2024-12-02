@@ -105,6 +105,15 @@
 
     <h1 style="font-family: Verdana, sans-serif;">{{ user.username }}</h1>
 
+
+    {% if current_user.is_authenticated and user.id == current_user.id %}
+    <br>
+    <a href="{{ url_for('users.edit_profile', user_id=current_user.id) }}" style="background-color: #333; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; transition: background-color 0.3s; text-decoration: none;",
+    onmouseover="this.style.backgroundColor='#ddd'; this.style.color='black';", onmouseout="this.style.backgroundColor='#333'; this.style.color='white';">Edit Profile</a>
+    <br>
+    <br>
+    {% endif %}
+
    
 
     <br>
@@ -205,15 +214,6 @@
     <br>
     <br>
     <br>
-
-    {% if current_user.is_authenticated and user.id == current_user.id %}
-    <br>
-    <br>
-    <a href="{{ url_for('users.edit_profile', user_id=current_user.id) }}" style="background-color: #333; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; transition: background-color 0.3s; text-decoration: none;",
-    onmouseover="this.style.backgroundColor='#ddd'; this.style.color='black';", onmouseout="this.style.backgroundColor='#333'; this.style.color='white';">Edit Profile</a>
-    <br>
-    <br>
-    {% endif %}
 
     
 
