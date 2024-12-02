@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, Blu
 from flask_login import login_required, current_user
 from app.models import Route, User, user_route, Wall
 from app import db
+from sqlalchemy import func, desc
 
 admin_db = Blueprint('admin_db', __name__)
 
@@ -263,5 +264,20 @@ def admin_db_page():
         
         return redirect(url_for('admin_db.admin_db_page'))
 
+
+
+    # Recupera i parametri di ricerca dalla query string
+    search_name = request.args.get('search_name', '').strip()
+    search_grade = request.args.get('search_grade', '').strip()
+    # Applica i filtri di ricerca se specificati
+    if search_name:
+        routes = db.session.query(Route).filter(
+            Route.name.ilike(f"{search_name}%") |
+            Route.name.ilike(f"% {search_name}%")
+            ).all()
+    if search_grade:
+        routes = db.session.query(Route).filter(Route.grade == search_grade).all()
+
+
     
-    return render_template('admin_db_page.html', users=users, walls=walls, routes=routes, reps=reps)
+    return render_template('admin_db_page.html', users=users, walls=walls, routes=routes, reps=reps, search_name=search_name)
