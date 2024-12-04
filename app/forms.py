@@ -26,7 +26,7 @@ class RouteForm(FlaskForm):
                                         ('7b', '7b'), ('7b+', '7b+'), ('7c', '7c'), ('7c+', '7c+'),
                                         ('8a', '8a'), ('8a+', '8a+'), ('8b', '8b'), ('8b+', '8b+'),
                                         ('8c', '8c'), ('8c+', '8c+'), ('9a', '9a'), ('9a+', '9a+'),
-                                        ('9b', '9b'), ('9b+', '9b+'), ('9c', '9c')],
+                                        ('9b', '9b'), ('9b+', '9b+'), ('9c', '9c'), ('Project','Project')],
                         validators=[DataRequired()])
     wall = SelectField('Wall', coerce=int, validators=[DataRequired()])
     submit = SubmitField('Add Route')
