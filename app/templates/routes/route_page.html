@@ -423,7 +423,7 @@
     {% if users_with_grades %}
 
         <p>Number of reps: <strong style="font-family: Verdana, sans-serif;">{{n_rep}}</strong> <br>
-        Average proposed grade: <strong style="font-family: Verdana, sans-serif;">{{ display_grade(avg_proposed_grade|int) }}</strong> <br>
+        Average proposed grade: <strong style="font-family: Verdana, sans-serif;">{{ display_grade(avg_proposed_grade|round) }}</strong> <br>
         Score: <strong style="font-family: Verdana, sans-serif;">{{ avg_score|round(2) }}/5</strong>  <span id="star1" class="star-container">★★★★★</span></p> 
         
         <script>
