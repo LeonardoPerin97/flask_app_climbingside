@@ -25,7 +25,7 @@ def display_grade_backend(combined_grade_value):
                 return "Invalid Grade"  # Return an error message if conversion fails
             
     base_grade_value = combined_grade_value // 10  # Integer division to get the base grade
-    decimal_value = int(combined_grade_value % 10)     # Modulo to get the decimal part
+    decimal_value = int(round(combined_grade_value % 10))    # Modulo to get the decimal part
 
     # Map base grade value to climbing grade string
     grade_map = {
