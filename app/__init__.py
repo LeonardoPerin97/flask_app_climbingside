@@ -26,10 +26,10 @@ def create_app():
     # Configura l'app (esempio con una configurazione di database)
     app.config['SECRET_KEY'] = 'mysecretkey'
     
-    #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'   # SQLite database
-    DATABASE_URL="postgresql://postgres.hqqaiondpttwepglizyl:uj1U12RikFpCsIry@\
-aws-0-eu-central-1.pooler.supabase.com:5432/postgres?sslmode=require"
-    app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL   # Supabase
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'   # SQLite database
+    #DATABASE_URL="postgresql://postgres.hqqaiondpttwepglizyl:uj1U12RikFpCsIry@\
+#aws-0-eu-central-1.pooler.supabase.com:5432/postgres?sslmode=require"
+    #app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL   # Supabase
     
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
