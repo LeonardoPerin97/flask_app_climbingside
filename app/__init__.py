@@ -25,7 +25,12 @@ def create_app():
     #app.config.from_object('config.Config')
     # Configura l'app (esempio con una configurazione di database)
     app.config['SECRET_KEY'] = 'mysecretkey'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'  # SQLite database
+    
+    #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'   # SQLite database
+    DATABASE_URL="postgresql://postgres.hqqaiondpttwepglizyl:uj1U12RikFpCsIry@\
+aws-0-eu-central-1.pooler.supabase.com:5432/postgres?sslmode=require"
+    app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL   # Supabase
+    
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     # Inizializza SQLAlchemy con l'istanza dell'app
