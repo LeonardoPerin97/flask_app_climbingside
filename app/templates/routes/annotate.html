@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Annota Immagini - {{ route.name }}</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.4.0/dist/css/bootstrap.min.css"
+    rel="stylesheet">
+  <style>
+    #canvas { border: 1px solid #ccc; cursor: crosshair; }
+  </style>
+</head>
+<body>
+  <div class="container py-4">
+    <h1 class="mb-4">Segna le prese per la via '{{ route.name }}'</h1>
+
+    <!--
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, msg in messages %}
+          <div class="alert alert-{{ category }}">{{ msg }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    -->
+
+    <form id="annotate-form" method="POST"
+          action="{{ url_for('routes.add_image', route_id=route.id) }}">
+      <div class="mb-3">
+        <label for="file-input" class="form-label">
+          Scegli una o più immagini:
+        </label>
+        <input type="file" id="file-input" accept="image/*" multiple
+               class="form-control" required>
+      </div>
+      <br>
+
+      <div class="mb-3">
+        <canvas id="canvas"></canvas>
+      </div>
+
+      <input type="hidden" name="annotations" id="annotations-input">
+      <input type="hidden" name="annotated_image" id="image-data-input">
+
+      <div class="mb-3">
+        <button type="button" id="reset-btn" class="btn btn-warning me-2">
+          Reset annotazioni
+        </button>
+        <button type="button" id="top-btn" class="btn btn-info me-2">
+          Segna TOP
+        </button>
+        <br><br>
+        <button type="submit" class="btn btn-success me-2">
+          Carica su Cloudinary
+        </button>
+        <a href="{{ url_for('routes.route_page', route_id=route.id) }}"
+           class="btn btn-secondary">
+          Annulla
+        </a>
+      </div>
+    </form>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.4.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const fileInput = document.getElementById('file-input');
+    const canvas    = document.getElementById('canvas');
+    const ctx       = canvas.getContext('2d');
+    const annInput  = document.getElementById('annotations-input');
+    const imgInput  = document.getElementById('image-data-input');
+    const resetBtn  = document.getElementById('reset-btn');
+    const topBtn    = document.getElementById('top-btn');
+
+    let images       = [];
+    let annotations  = []; 
+    let clickCount   = 0;
+    let nextRedNum   = 1;
+    let mode         = 'point';      // 'point' o 'top'
+    let finished     = false;        // diventa true dopo il TOP
+
+    function drawImages() {
+      if (!images.length) return;
+      const maxW   = Math.max(...images.map(i=>i.width));
+      const totalH = images.reduce((s,i)=>s+i.height,0);
+      canvas.width  = maxW;
+      canvas.height = totalH;
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      let offY = 0;
+      images.forEach(img=>{
+        ctx.drawImage(img,0,offY);
+        offY += img.height;
+      });
+    }
+
+    fileInput.addEventListener('change', async e=>{
+      const files = Array.from(e.target.files);
+      if (!files.length) return;
+      const loadImg = file=>new Promise(r=>{
+        const fr=new FileReader();
+        fr.onload=ev=>{
+          const img=new Image();
+          img.onload=()=>r(img);
+          img.src=ev.target.result;
+        };
+        fr.readAsDataURL(file);
+      });
+      images = await Promise.all(files.map(loadImg));
+      annotations = [];
+      clickCount   = 0;
+      nextRedNum   = 1;
+      mode         = 'point';
+      finished     = false;
+      drawImages();
+    });
+
+    canvas.addEventListener('click', e=>{
+      if (!images.length || finished) return;
+
+      const rect = canvas.getBoundingClientRect();
+      const x    = e.clientX - rect.left;
+      const y    = e.clientY - rect.top;
+
+      if (mode === 'top') {
+        // PIAZZA TOP e blocca tutto
+        ctx.fillStyle = 'green';
+        ctx.font      = '24px Arial';
+        ctx.fillText('TOP', x, y);
+        annotations.push({type:'top', x, y, label:'TOP'});
+        finished = true;
+        //alert('TOP piazzato: non puoi più aggiungere altri punti.');
+        return;
+      }
+
+      // Modalità punti normali
+      if (clickCount === 0) {
+        ctx.fillStyle = 'green';
+        ctx.font      = '24px Arial';
+        ctx.fillText('SX', x, y);
+        annotations.push({type:'start', label:'sx', x, y});
+      } else if (clickCount === 1) {
+        ctx.fillStyle = 'green';
+        ctx.font      = '24px Arial';
+        ctx.fillText('DX', x, y);
+        annotations.push({type:'start', label:'dx', x, y});
+      } else {
+        ctx.fillStyle = 'red';
+        ctx.font      = '28px Arial';
+        ctx.fillText(nextRedNum, x, y);
+        const ann = {type:'move', number:nextRedNum, x, y};
+        if (nextRedNum === 1) {
+          let side;
+          while (!['sx','dx'].includes((side = prompt("Punto 1: scrivi 'sx' o 'dx'")).toLowerCase())) {
+            alert("Inserisci esattamente 'sx' o 'dx'.");
+          }
+          ann.side = side.toLowerCase();
+          ctx.fillStyle = 'red';
+          ctx.fillText(side.toUpperCase(), x + 20, y);
+        }
+        annotations.push(ann);
+        nextRedNum++;
+      }
+
+      clickCount++;
+    });
+
+    topBtn.addEventListener('click', ()=> {
+      if (finished) return;
+      mode = 'top';
+      //alert("Modalità TOP attivata: clicca sul canvas per posizionare 'TOP'.");
+    });
+
+    resetBtn.addEventListener('click', ()=>{
+      if (!images.length) return;
+      annotations = [];
+      clickCount   = 0;
+      nextRedNum   = 1;
+      mode         = 'point';
+      finished     = false;
+      drawImages();
+    });
+
+    document.getElementById('annotate-form')
+      .addEventListener('submit', function(e) {
+        if (!images.length) {
+          e.preventDefault();
+          alert("Seleziona prima almeno un'immagine.");
+          return;
+        }
+        annInput.value = JSON.stringify(annotations);
+        imgInput.value = canvas.toDataURL('image/png');
+      });
+  </script>
+</body>
+</html>
