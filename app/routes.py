@@ -293,6 +293,56 @@ def delete_image(route_id):
     return redirect(url_for('routes.route_page', route_id=route_id))
 
 
+###################################################################
+from io import BytesIO
+import base64
+from PIL import Image
+import time
+
+@routes.route('/route/<int:route_id>/add-image', methods=['POST'])
+@login_required
+def add_image(route_id):
+    route = Route.query.get_or_404(route_id)
+    data_url = request.form.get('annotated_image')
+    annotations_json = request.form.get('annotations')
+    if not data_url or not annotations_json:
+        flash('Devi prima salvare le annotazioni.', 'danger')
+        return redirect(url_for('routes.route_page', route_id=route_id))
+
+    # Decodifica la data URL
+    header, encoded = data_url.split(',', 1)
+    img_data = base64.b64decode(encoded)
+
+    # Carica in PIL
+    image = Image.open(BytesIO(img_data)).convert('RGB')
+    
+
+    # Prepara l’upload a Cloudinary
+    buffer = BytesIO()
+    image.save(buffer, format='PNG')
+    buffer.seek(0)
+
+    # Upload
+    result = cloudinary.uploader.upload(
+        buffer,
+        folder=f"routes/{route.id}",
+        public_id=f"route_{route.id}_{int(time.time())}"
+    )
+    # Salva URL nel DB
+    route.image_file = result['secure_url']
+    db.session.commit()
+
+    flash('Immagine annotata caricata con successo!', 'success')
+    return redirect(url_for('routes.route_page', route_id=route_id))
+
+
+@routes.route('/route/<int:route_id>/annotate', methods=['GET'])
+@login_required
+def annotate(route_id):
+    route = Route.query.get_or_404(route_id)
+    return render_template('routes/annotate.html', route=route)
+    
+###################################################################
 
 
 
