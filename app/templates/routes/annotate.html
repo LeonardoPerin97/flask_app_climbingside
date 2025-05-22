@@ -79,19 +79,46 @@
     let mode         = 'point';      // 'point' o 'top'
     let finished     = false;        // diventa true dopo il TOP
 
+    //function drawImages() {
+    //  if (!images.length) return;
+    //  const maxW   = Math.max(...images.map(i=>i.width));
+    //  const totalH = images.reduce((s,i)=>s+i.height,0);
+    //  canvas.width  = maxW;
+    //  canvas.height = totalH;
+    //  ctx.clearRect(0,0,canvas.width,canvas.height);
+    //  let offY = 0;
+    //  images.forEach(img=>{
+    //    ctx.drawImage(img,0,offY);
+    //    offY += img.height;
+    //  });
+    //}
     function drawImages() {
       if (!images.length) return;
-      const maxW   = Math.max(...images.map(i=>i.width));
-      const totalH = images.reduce((s,i)=>s+i.height,0);
-      canvas.width  = maxW;
-      canvas.height = totalH;
-      ctx.clearRect(0,0,canvas.width,canvas.height);
-      let offY = 0;
-      images.forEach(img=>{
-        ctx.drawImage(img,0,offY);
-        offY += img.height;
+    
+      // calcola dimensioni originali
+      const origW   = Math.max(...images.map(i => i.width));
+      const origH   = images.reduce((s, i) => s + i.height, 0);
+    
+      // calcola il fattore di scala in base alla finestra
+      const maxDisplayW = window.innerWidth;
+      const scale = Math.min(1, maxDisplayW / origW);
+    
+      // imposta dimensioni interne *fattore scala*
+      canvas.width  = origW * scale;
+      canvas.height = origH * scale;
+    
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+      // disegna scalando le immagini
+      let offsetY = 0;
+      images.forEach(img => {
+        const w = img.width * scale;
+        const h = img.height * scale;
+        ctx.drawImage(img, 0, offsetY, w, h);
+        offsetY += h;
       });
     }
+
 
     fileInput.addEventListener('change', async e=>{
       const files = Array.from(e.target.files);
