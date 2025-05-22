@@ -108,7 +108,10 @@
       // imposta dimensioni interne *fattore scala*
       canvas.width  = origW * scale;
       canvas.height = origH * scale;
-    
+
+      ctx = canvas.getContext('2d');
+      ctx.textAlign    = 'center';
+      ctx.textBaseline = 'middle';
       ctx.clearRect(0, 0, canvas.width, canvas.height);
     
       // disegna scalando le immagini
