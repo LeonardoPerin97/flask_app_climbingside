@@ -67,6 +67,8 @@
     const fileInput = document.getElementById('file-input');
     const canvas    = document.getElementById('canvas');
     const ctx       = canvas.getContext('2d');
+    ctx.textAlign    = 'center';  // orizzontalmente centrato
+    ctx.textBaseline = 'middle';  // verticalmente centrato
     const annInput  = document.getElementById('annotations-input');
     const imgInput  = document.getElementById('image-data-input');
     const resetBtn  = document.getElementById('reset-btn');
