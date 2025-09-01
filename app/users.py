@@ -3,7 +3,7 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request, session
 from flask_login import login_user, login_required, logout_user, current_user
 from collections import Counter
-from sqlalchemy import func, desc
+from sqlalchemy import func, desc, case
 from app.forms import RegistrationForm, LoginForm
 from app.models import User, Route, user_route
 from app import db
@@ -202,11 +202,17 @@ def users_list():
     #users = User.query.all()  # Fetch all users from the database
     sort_order = request.args.get('sort', 'default')
 
+    # Define conversion: "project" → -1, else keep the grade
+    grade_value = case(
+        (Route.grade == 'project', -1),
+        else_=Route.grade
+    )
+    
     # Query for each user, counting repetitions and finding max grade
     users_with_stats = db.session.query(
     User.id, User.username,
     func.count(user_route.c.route_id).label('repetitions'),
-    func.max(Route.grade).label('max_grade')
+    func.max(grade_value).label('max_grade')
     ).outerjoin(user_route, User.id == user_route.c.user_id) \
     .outerjoin(Route, Route.id == user_route.c.route_id) \
     .group_by(User.id)
@@ -216,7 +222,7 @@ def users_list():
     elif sort_order == 'nreps':    
         users_with_stats = users_with_stats.order_by(func.count(user_route.c.route_id).desc())
     elif sort_order == 'maxgrade':    
-        users_with_stats = users_with_stats.order_by(func.max(Route.grade).desc())
+        users_with_stats = users_with_stats.order_by(func.max(grade_value).desc())
     else:
         users_with_stats = users_with_stats.order_by(User.id)
 
@@ -229,6 +235,7 @@ def users_list():
     else:
         current_username = None  # No logged-in user
     return render_template('users/users_list.html', users=users, current_username=current_username, sort_order=sort_order, n_users=n_users)
+
 
 
 
