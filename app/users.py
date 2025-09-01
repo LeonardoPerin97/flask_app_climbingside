@@ -202,9 +202,9 @@ def users_list():
     #users = User.query.all()  # Fetch all users from the database
     sort_order = request.args.get('sort', 'default')
 
-    # Define conversion: "project" → -1, else keep the grade
+    # Define conversion: "Project" → -1, else keep the grade
     grade_value = case(
-        (Route.grade == 'project', -1),
+        (Route.grade == 'Project', -1),
         else_=Route.grade
     )
     
@@ -235,6 +235,7 @@ def users_list():
     else:
         current_username = None  # No logged-in user
     return render_template('users/users_list.html', users=users, current_username=current_username, sort_order=sort_order, n_users=n_users)
+
 
 
 
